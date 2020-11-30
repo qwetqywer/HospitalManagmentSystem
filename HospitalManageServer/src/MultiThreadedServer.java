@@ -4,7 +4,7 @@ import java.net.Socket;
 
 public class MultiThreadedServer implements Runnable{
     protected static int amountConnections = 0;  //Количество подключений
-    protected int serverPort = 9006;
+    protected int serverPort = 3000;
     protected ServerSocket serverSocket = null;
     protected boolean isStopped = false;
 
