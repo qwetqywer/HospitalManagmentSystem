@@ -8,11 +8,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="694.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AdministratorAccountController">
+<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AdminControllers.AdministratorAccountController">
    <children>
-      <AnchorPane layoutY="656.0" prefHeight="48.0" prefWidth="900.0" style="-fx-background-color: #00c0e14d;" />
-      <Button fx:id="desktopAdministratorButton" focusTraversable="false" layoutY="106.0" mnemonicParsing="false" prefHeight="92.5" prefWidth="194.0" style="-fx-background-color: #16b9c3ab; -fx-background-radius: 0;" text="Рабочий стол" textFill="#0000008c">
+      <AnchorPane layoutX="194.0" layoutY="656.0" prefHeight="48.0" prefWidth="706.0" style="-fx-background-color: #00c0e14d;" />
+      <Button fx:id="desktopAdministratorButton" focusTraversable="false" layoutY="106.0" mnemonicParsing="false" prefHeight="92.5" prefWidth="194.0" style="-fx-background-color: #16b9c3ab; -fx-background-radius: 0;" text="Рабочий стол" textFill="#000000a6">
          <font>
             <Font name="Segoe UI Semilight" size="14.0" />
          </font>
@@ -45,18 +44,13 @@
             <Font name="Segoe UI Semilight" size="14.0" />
          </font>
       </Button>
-      <AnchorPane prefHeight="110.0" prefWidth="861.0" style="-fx-background-color: white;">
+      <AnchorPane prefHeight="110.0" prefWidth="900.0" style="-fx-background-color: white;">
          <children>
             <ImageView fitHeight="55.0" fitWidth="63.0" layoutX="54.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../resource/kisspng-hospital-clinic-logo-health-medicine-dotwriterampaposs-hot-content-trends-for-summer-5d3760089fc554.4859575815639101526544.png" />
+                  <Image url="@../../resources/logo.png" />
                </image>
             </ImageView>
-            <Label fx:id="fullNameAdministratorLabel" layoutX="609.0" layoutY="36.0" prefHeight="38.0" prefWidth="287.0" text="Габриельчик Виктория Сергеевна" textAlignment="CENTER" textFill="#bbbbbb">
-               <font>
-                  <Font name="Symbol" size="17.0" />
-               </font>
-            </Label>
             <Label layoutX="119.0" layoutY="41.0" prefHeight="18.0" prefWidth="74.0" text="Vikera" textFill="#bbbbbb">
                <font>
                   <Font name="Serif Regular" size="25.0" />
@@ -64,9 +58,9 @@
             </Label>
          </children>
       </AnchorPane>
-      <ImageView fitHeight="284.0" fitWidth="347.0" layoutX="539.0" layoutY="372.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="305.0" fitWidth="402.0" layoutX="495.0" layoutY="336.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../resource/Group_273.png" />
+            <Image url="@../../resources/adminPA.png" />
          </image>
       </ImageView>
       <Label fx:id="surnameAdministratorLabel" layoutX="256.0" layoutY="152.0" prefHeight="32.0" prefWidth="176.0" text="Фамилия" textFill="#000000b3">
@@ -89,10 +83,10 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="addressAdministratorLabel" layoutX="458.0" layoutY="202.0" prefHeight="18.0" prefWidth="134.0" text="Адрес" textFill="#000000a6">
+      <Button fx:id="returnBackButton" layoutY="656.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Выход" textFill="#000000a6">
          <font>
-            <Font size="14.0" />
+            <Font name="Segoe UI Semilight" size="14.0" />
          </font>
-      </Label>
+      </Button>
    </children>
 </AnchorPane>

@@ -1,3 +1,4 @@
+import Configs.FXMLConfigs;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,9 +9,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("Views/sample.fxml"));
-        primaryStage.setTitle("Жопа");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        Parent root = FXMLLoader.load(getClass().getResource("Views/authorization.fxml"));
+        primaryStage.setTitle("Медицинская клиника");
+        primaryStage.setScene(new Scene(root, 900, 700));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

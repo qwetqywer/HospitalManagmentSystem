@@ -1,68 +1,47 @@
-package Controllers.CareWorkerControllers;
+package Controllers.RegControllers;
 
-import Configs.FXMLConfigs;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 
-public class EditCareWorkerProfileController {
+import javax.swing.text.html.ImageView;
+
+public class RegAccountController {
 
     @FXML
     private Label fullnameRegLabel;
 
     @FXML
     private Button desktopRegButton;
-
     @FXML
     private Button issueAppointmentCardButton;
-
     @FXML
     private Button giveAppointmentCardButton;
-
     @FXML
     private Button issueOutpatientCardButton;
-
     @FXML
     private Button getDoctorScheduleButton;
-
     @FXML
     private Button editReqProfileButton;
-
     @FXML
     private Button returnBackButton;
 
     @FXML
-    private Button changePasswordButton;
+    private ImageView returnBackImage;
 
     @FXML
-    private Button changeLoginButton;
-
+    private Label surnameRegLabel;
     @FXML
-    private TextField newLoginChangeLoginTextField;
-
+    private Label nameRegLabel;
     @FXML
-    private PasswordField passwordChangeLoginField;
-
+    private Label patronymicRegLabel;
     @FXML
-    private PasswordField oldPasswordChangePasswordField;
-
+    private Label birthdayDateRegLabel;
     @FXML
-    private PasswordField confirmPasswordChangePasswordField;
-
-    @FXML
-    private PasswordField newPasswordChangePasswordField;
-
+    private Label addressRegLabel;
 
     @FXML
     void initialize() {
 
-
-
-
-
-
     }
-
 }

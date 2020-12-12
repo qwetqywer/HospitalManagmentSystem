@@ -9,6 +9,7 @@ CREATE TABLE `hospitalsystem`.`employee` (
   `passportseries` VARCHAR(2) NOT NULL,
   `passportnumber` INT NOT NULL,
   `idaddress` INT NOT NULL,
+  `gender` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idemployee`),
   INDEX `idpersonal_account_idx` (`idpersonal_account` ASC) VISIBLE,
   INDEX `idspecialty_idx` (`idspecialty` ASC) VISIBLE,

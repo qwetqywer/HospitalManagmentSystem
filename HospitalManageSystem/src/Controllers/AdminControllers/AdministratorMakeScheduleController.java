@@ -1,19 +1,22 @@
 package Controllers.AdminControllers;
 
+import Configs.FXMLConfigs;
+import Models.*;
+import ServerHandlers.ClientHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class AdministratorMakeScheduleController {
 
-
-    @FXML
-    private Button returnBackButton;
 
     @FXML
     private Button desktopAdministratorButton;
@@ -34,37 +37,293 @@ public class AdministratorMakeScheduleController {
     private Button settingsAdministratorButton;
 
     @FXML
-    private Label fullNameAdministratorLabel;
+    private TableView<Employee> doctorTable;
 
     @FXML
-    private TableView<?> doctorTable;
+    private TableColumn<Employee, Integer> idDoctorColumn;
 
     @FXML
-    private TableColumn<?, ?> idDoctorColumn;
+    private TableColumn<Employee, String> surnameDoctorColumn;
 
     @FXML
-    private TableColumn<?, ?> FullNameDoctorColumn;
+    private TableColumn<Employee, String> nameDoctorColumn;
 
     @FXML
-    private TableColumn<?, ?> specialtyDoctorColumn;
+    private TableColumn<Employee, String> patronymicDoctorColumn;
 
     @FXML
-    private TableColumn<?, ?> RoomNumberDoctorColumn;
+    private TableColumn<Employee, String> specialtyDoctorColumn;
+
+    @FXML
+    private TableColumn<Employee, String> workTimeDoctorColumn;
+
+    @FXML
+    private TableColumn<Employee, String> RoomNumberDoctorColumn;
 
     @FXML
     private DatePicker dateAppointmentField;
 
     @FXML
-    private ComboBox<?> specialtyCheckBox;
+    private ComboBox<Specialty> specialtyCheckBox;
 
     @FXML
     private Button addAppointmentButton;
 
     @FXML
     private TextField timeAppointmentField;
-    @FXML
-    void initialize() {
 
+    @FXML
+    private Button returnBackButton;
+
+    @FXML
+    private Button addWorkTimeButton;
+
+    @FXML
+    private TextField workTimeField;
+
+    @FXML
+    private Button searchButton;
+
+
+    @FXML
+    private TextField RoomNumberField;
+
+    private final ClientHandler clientHandler = ClientHandler.getClient();
+    @FXML
+    void initialize() throws IOException {
+        deleteFocus();
+        updateSpecialtyComboBox();
+
+
+        registryManagementButton.setOnAction(actionEvent -> {
+            registryManagementButton.getScene().getWindow().hide();
+            clientHandler.sendMessage("manageRegistry");
+            changeScene(FXMLConfigs.adminManageRegistry);
+
+        });
+
+
+        desktopAdministratorButton.setOnAction((actionEvent -> {
+            desktopAdministratorButton.getScene().getWindow().hide();
+            clientHandler.sendMessage("desktopAdmin");
+            changeScene(FXMLConfigs.adminAccount);
+        }));
+
+
+        settingsAdministratorButton.setOnAction(actionEvent -> {
+            settingsAdministratorButton.getScene().getWindow().hide();
+            clientHandler.sendMessage("settingsAdmin");
+            changeScene(FXMLConfigs.adminEditProfile);
+        });
+
+
+
+        viewStatisticsButton.setOnAction(actionEvent -> {
+            viewStatisticsButton.getScene().getWindow().hide();
+            clientHandler.sendMessage("viewStatistics");
+            changeScene(FXMLConfigs.adminStatistics);
+        });
+
+
+
+
+        returnBackButton.setOnAction(actionEvent -> {
+            returnBackButton.getScene().getWindow().hide();
+            clientHandler.sendMessage("returnBack");
+            changeScene(FXMLConfigs.authorization);
+        });
+
+
+        personnelManagementButton.setOnAction(actionEvent -> {
+            personnelManagementButton.getScene().getWindow().hide();
+            clientHandler.sendMessage("managePersonnel");
+            changeScene(FXMLConfigs.adminManageMedicalStaff);
+        });
+
+        searchButton.setOnAction(actionEvent -> {
+            if(specialtyCheckBox.getSelectionModel()==null)
+            {
+                callAlert("Выберите специальность");
+            }
+            else {
+                clientHandler.sendMessage("searchButton");
+
+                try {
+                    updateTable();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        addWorkTimeButton.setOnAction(actionEvent -> {
+            if(doctorTable.getSelectionModel().getSelectedItem() == null)
+            {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("Выберите запись!");
+                alert.showAndWait();
+            }else {
+                clientHandler.sendMessage("addWorkTimeButton");
+                addWorkTime();
+            }
+        });
+
+        addAppointmentButton.setOnAction(actionEvent -> {
+            if(doctorTable.getSelectionModel().getSelectedItem() == null)
+            {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("Выберите запись!");
+                alert.showAndWait();
+            }else {
+                clientHandler.sendMessage("addAppointmentButton");
+                addAppointment();
+            }
+
+        });
+    }
+
+    private void updateTable() throws IOException {
+        clientHandler.sendMessage("updateDoctorTable");
+        clientHandler.sendObject(specialtyCheckBox.getValue());
+        boolean isUpdateSuccessfully = (boolean) clientHandler.readObject();
+        ArrayList<Employee> employeeArrayList = new ArrayList<>();
+        Employee.listEmployees.clear();
+        if(isUpdateSuccessfully) {
+
+            int size = clientHandler.read();
+
+            for(int i=0; i<size ; i++){
+                Employee item = new Employee((Employee) clientHandler.readObject());
+                employeeArrayList.add(item);
+
+            }
+
+            Employee.update(employeeArrayList);
+        }
+
+        idDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        surnameDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
+        nameDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        patronymicDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
+        specialtyDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("nameSpecialty"));
+        workTimeDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("workTime"));
+        RoomNumberDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("officeNumber"));
+
+        doctorTable.setItems(Employee.listEmployees);
+        doctorTable.refresh();
+    }
+
+
+    private void addWorkTime(){
+        String workTime = workTimeField.getText().trim();
+        String roomNumber= RoomNumberField.getText().trim();
+
+
+        String regexWorkTime ="^(\\d{2}).(\\d{2})-(\\d{2}).(\\d{2})$";
+        String regexRoomNumber ="^(\\d{3})$";
+        if(!workTime.matches(regexWorkTime) || !roomNumber.matches(regexRoomNumber) ){
+
+            callAlert("Не все поля введены корректно!");
+        }
+        else {
+            Employee employee = new Employee(doctorTable.getSelectionModel().getSelectedItem());
+            employee.setWorkTime(workTime);
+            employee.setOfficeNumber(roomNumber);
+            clientHandler.sendObject(employee);
+            boolean isEmployeeAdded = (boolean) clientHandler.readObject();
+            if (isEmployeeAdded) {
+                callAlert("Рабочее время успешно назначено");
+                workTimeField.setText("");
+                RoomNumberField.setText("");
+            }
+            else  callAlert("Рабочее время не было назначено. Попробуйте снова.");
+
+        }
+
+    }
+
+
+    private void addAppointment(){
+        String dateAppointment = dateAppointmentField.getValue().toString();
+        String timeAppointment= timeAppointmentField.getText().trim();
+
+
+        String regexTime ="^(\\d{2}):(\\d{2})$";
+
+        if(!timeAppointment.matches(regexTime) || dateAppointmentField.getValue().isBefore(LocalDate.now())){
+            callAlert("Не все поля введены корректно!");
+        }
+        else {
+
+            Employee employee = new Employee(doctorTable.getSelectionModel().getSelectedItem());
+            Appointment appointment = new Appointment();
+            appointment.setDate(dateAppointment);
+            appointment.setIntStatus(1);
+            appointment.setTime(timeAppointment);
+            appointment.setIdEmployee(employee.getId());
+            clientHandler.sendObject(appointment);
+            boolean isEmployeeAdded = (boolean) clientHandler.readObject();
+            if (isEmployeeAdded) {
+                callAlert("Талон оформлен");
+                timeAppointmentField.setText("");
+                dateAppointmentField.setValue(LocalDate.now());
+            }
+            else  callAlert("Талон не был оформлен. Попробуйте снова.");
+
+        }
+
+    }
+
+    private void changeScene(String fxmlPath) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(fxmlPath));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage primaryStage = new Stage();
+        assert root != null;
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setResizable(false);
+        primaryStage.show();
+    }
+
+    private void updateSpecialtyComboBox() {
+        clientHandler.sendMessage("updateSpecialtyComboBox");
+        boolean isUpdateSuccessfully = (boolean) clientHandler.readObject();
+        if(isUpdateSuccessfully) {
+            ArrayList<Specialty> specialtyArrayList = (ArrayList<Specialty>)clientHandler.readObject();
+            Specialty.update(specialtyArrayList);
+        }
+        specialtyCheckBox.setItems(Specialty.listSpecialties);
+    }
+
+
+    private void callAlert(String alertMessage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText(alertMessage);
+        alert.showAndWait();
+    }
+
+    private void deleteFocus() {
+
+        workTimeField.setFocusTraversable(false);
+        RoomNumberField.setFocusTraversable(false);
+        timeAppointmentField.setFocusTraversable(false);
+        dateAppointmentField.setFocusTraversable(false);
+    }
+
+
+    private void clear(){
+        workTimeField.setText("");
+        RoomNumberField.setText("");
+        timeAppointmentField.setText("");
+        dateAppointmentField.setValue(LocalDate.now());
     }
 
 }

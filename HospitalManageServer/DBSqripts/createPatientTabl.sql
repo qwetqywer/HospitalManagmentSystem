@@ -8,6 +8,7 @@ CREATE TABLE `hospitalsystem`.`patient` (
   `passportseries` VARCHAR(2) NOT NULL,
   `passportnumber` INT NOT NULL,
   `birthdaydate` DATE NOT NULL,
+  `gender` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idpatient`),
   INDEX `idaddress_idx` (`idaddress` ASC) VISIBLE,
   CONSTRAINT `idpatient`

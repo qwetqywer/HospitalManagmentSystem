@@ -15,16 +15,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AdminControllers.AdministratorMakeScheduleController">
    <children>
-      <AnchorPane layoutY="656.0" prefHeight="48.0" prefWidth="900.0" style="-fx-background-color: #00c0e14d;">
-         <children>
-            <Button fx:id="returnBackButton" layoutX="76.0" layoutY="11.0" mnemonicParsing="false" text="Button" />
-            <ImageView fitHeight="38.0" fitWidth="35.0" layoutX="33.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../resources/cancel.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
+      <AnchorPane layoutX="194.0" layoutY="656.0" prefHeight="48.0" prefWidth="706.0" style="-fx-background-color: #00c0e14d;" />
       <Button fx:id="desktopAdministratorButton" focusTraversable="false" layoutY="106.0" mnemonicParsing="false" prefHeight="92.5" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Рабочий стол" textFill="#0000008c">
          <font>
             <Font name="Segoe UI Semilight" size="14.0" />
@@ -58,18 +49,13 @@
             <Font name="Segoe UI Semilight" size="14.0" />
          </font>
       </Button>
-      <AnchorPane prefHeight="110.0" prefWidth="861.0" style="-fx-background-color: white;">
+      <AnchorPane prefHeight="110.0" prefWidth="900.0" style="-fx-background-color: white;">
          <children>
             <ImageView fitHeight="55.0" fitWidth="63.0" layoutX="54.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../resources/logo.png" />
                </image>
             </ImageView>
-            <Label fx:id="fullNameAdministratorLabel" layoutX="609.0" layoutY="36.0" prefHeight="38.0" prefWidth="287.0" text="Габриельчик Виктория Сергеевна" textAlignment="CENTER" textFill="#bbbbbb">
-               <font>
-                  <Font name="Symbol" size="17.0" />
-               </font>
-            </Label>
             <Label layoutX="119.0" layoutY="41.0" prefHeight="18.0" prefWidth="74.0" text="Vikera" textFill="#bbbbbb">
                <font>
                   <Font name="Serif Regular" size="25.0" />
@@ -77,26 +63,46 @@
             </Label>
          </children>
       </AnchorPane>
-      <ImageView fitHeight="284.0" fitWidth="347.0" layoutX="562.0" layoutY="347.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="270.0" fitWidth="287.0" layoutX="610.0" layoutY="383.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../resources/schedule.png" />
          </image>
       </ImageView>
-      <TableView fx:id="doctorTable" layoutX="456.0" layoutY="146.0" prefHeight="200.0" prefWidth="414.0" style="-fx-border-color: #ffffff;">
+      <TableView fx:id="doctorTable" layoutX="236.0" layoutY="146.0" prefHeight="200.0" prefWidth="620.0" style="-fx-border-color: #ffffff;">
          <columns>
-            <TableColumn fx:id="idDoctorColumn" prefWidth="25.5999755859375" style="-fx-background-color: #00c0e14d;" text="№" />
-            <TableColumn fx:id="FullNameDoctorColumn" prefWidth="147.20004272460938" style="-fx-background-color: #00c0e14d;" text="ФИО" />
-            <TableColumn fx:id="specialtyDoctorColumn" prefWidth="124.800048828125" style="-fx-background-color: #00c0e14d;" text="Специальность" />
-            <TableColumn fx:id="RoomNumberDoctorColumn" prefWidth="112.80002441406248" style="-fx-background-color: #00c0e14d;" text="Рабочее время" />
+            <TableColumn fx:id="idDoctorColumn" minWidth="0.0" prefWidth="0.0" style="-fx-background-color: #00c0e14d;" text="№" />
+            <TableColumn fx:id="surnameDoctorColumn" prefWidth="100.79998779296875" style="-fx-background-color: #00c0e14d;" text="Фамилия" />
+            <TableColumn fx:id="nameDoctorColumn" prefWidth="93.60003662109375" style="-fx-background-color: #00c0e14d;" text="Имя" />
+            <TableColumn fx:id="patronymicDoctorColumn" prefWidth="107.19998168945312" style="-fx-background-color: #00c0e14d;" text="Отчество" />
+            <TableColumn fx:id="specialtyDoctorColumn" prefWidth="115.20001220703125" style="-fx-background-color: #00c0e14d;" text="Специальность" />
+            <TableColumn fx:id="workTimeDoctorColumn" prefWidth="111.20001220703125" style="-fx-background-color: #00c0e14d;" text="Рабочее время" />
+            <TableColumn fx:id="RoomNumberDoctorColumn" prefWidth="88.0" style="-fx-background-color: #00c0e14d;" text="№ кабинета" />
          </columns>
       </TableView>
-      <DatePicker fx:id="dateAppointmentField" layoutX="236.0" layoutY="215.0" prefHeight="30.0" prefWidth="182.0" promptText="Дата приема" showWeekNumbers="true" />
-      <ComboBox fx:id="specialtyCheckBox" layoutX="236.0" layoutY="152.0" opacity="0.8" prefHeight="30.0" prefWidth="182.0" promptText="Выбрать специальность" />
-      <Button fx:id="addAppointmentButton" layoutX="261.0" layoutY="346.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="132.0" style="-fx-background-color: #ffcb97; -fx-background-radius: 20;" text="Добавить прием" textFill="#000000a6">
+      <DatePicker fx:id="dateAppointmentField" layoutX="236.0" layoutY="465.0" prefHeight="30.0" prefWidth="182.0" promptText="Дата приема" showWeekNumbers="true" />
+      <ComboBox fx:id="specialtyCheckBox" layoutX="236.0" layoutY="376.0" opacity="0.8" prefHeight="30.0" prefWidth="182.0" promptText="Выбрать специальность" />
+      <Button fx:id="addAppointmentButton" layoutX="261.0" layoutY="584.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="132.0" style="-fx-background-color: #ffcb97; -fx-background-radius: 20;" text="Добавить прием" textFill="#000000a6">
          <font>
             <Font name="Segoe UI Semilight" size="13.0" />
          </font>
       </Button>
-      <TextField fx:id="timeAppointmentField" layoutX="236.0" layoutY="277.0" prefHeight="30.0" prefWidth="182.0" promptText="Время приема HH:MM" />
+      <TextField fx:id="timeAppointmentField" layoutX="236.0" layoutY="519.0" prefHeight="30.0" prefWidth="182.0" promptText="Время приема HH:MM" />
+      <Button fx:id="returnBackButton" layoutY="656.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Выход" textFill="#000000a6">
+         <font>
+            <Font name="Segoe UI Semilight" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="addWorkTimeButton" layoutX="491.0" layoutY="584.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="174.0" style="-fx-background-color: #ffcb97; -fx-background-radius: 20;" text="Назначить рабочее время" textFill="#000000a6">
+         <font>
+            <Font name="Segoe UI Semilight" size="13.0" />
+         </font>
+      </Button>
+      <TextField fx:id="workTimeField" layoutX="481.0" layoutY="519.0" prefHeight="30.0" prefWidth="194.0" promptText="Рабочее время HH:MM-HH:MM" />
+      <TextField fx:id="RoomNumberField" layoutX="481.0" layoutY="465.0" prefHeight="30.0" prefWidth="194.0" promptText="№ кабинета" />
+      <Button fx:id="searchButton" layoutX="450.0" layoutY="376.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="132.0" style="-fx-background-color: #ffcb97; -fx-background-radius: 20;" text="Поиск" textFill="#000000a6">
+         <font>
+            <Font name="Segoe UI Semilight" size="13.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

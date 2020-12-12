@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: #00c0e14d;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AdminControllers.EditDoctorController">
+   <children>
+      <ImageView fitHeight="176.0" fitWidth="194.0" layoutX="522.0" layoutY="276.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../resources/Letter.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="specialtyTextField" layoutX="545.0" layoutY="130.0" promptText="Специальность" />
+      <TextField fx:id="nameTextField" layoutX="209.0" layoutY="82.0" promptText="Имя " />
+      <TextField fx:id="patronymicTextField" layoutX="380.0" layoutY="82.0" prefHeight="26.0" prefWidth="150.0" promptText="Отчество " />
+      <ComboBox fx:id="streetComboBox" layoutX="38.0" layoutY="243.0" prefHeight="26.0" prefWidth="149.0" promptText="Улица проживания" />
+      <TextField fx:id="houseNumberTextField" layoutX="209.0" layoutY="243.0" promptText="Номер дома" />
+      <TextField fx:id="flatNumberTextField" layoutX="381.0" layoutY="243.0" promptText="Номер квартиры" />
+      <TextField fx:id="corpusNumberTextField" layoutX="545.0" layoutY="243.0" promptText="Корпус" />
+      <DatePicker fx:id="birthdayDatePicker" layoutX="544.0" layoutY="81.0" prefHeight="26.0" prefWidth="150.0" promptText="Дата рождения" />
+      <RadioButton fx:id="manRadio" layoutX="41.0" layoutY="134.0" mnemonicParsing="false" text="Мужской">
+         <toggleGroup>
+            <ToggleGroup fx:id="genderGroup" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="womanRadio" layoutX="137.0" layoutY="134.0" mnemonicParsing="false" text="Женский" toggleGroup="$genderGroup" />
+      <Label layoutX="39.0" layoutY="36.0" prefHeight="28.0" prefWidth="322.0" text="Данные врача" textFill="#000000d9">
+         <font>
+            <Font name="Segoe UI Semilight" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="39.0" layoutY="196.0" prefHeight="28.0" prefWidth="322.0" text="Данные о проживании" textFill="#000000d9">
+         <font>
+            <Font name="Segoe UI Semilight" size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="confirmButton" layoutX="39.0" layoutY="332.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="132.0" style="-fx-background-radius: 20; -fx-background-color: #ffcb97;" text="Оформить" textFill="#000000a6">
+         <font>
+            <Font name="Segoe UI Semilight" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="clearButton" layoutX="208.0" layoutY="332.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="138.0" style="-fx-background-radius: 20; -fx-background-color: #ffcb97;" text="Очистить" textFill="#000000a6">
+         <font>
+            <Font name="Segoe UI Semilight" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="exitButton" layoutX="588.0" layoutY="21.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="105.0" style="-fx-background-radius: 0; -fx-background-color: #ffcb97;" text="Назад" textFill="#000000a6">
+         <font>
+            <Font name="Segoe UI Semilight" size="13.0" />
+         </font>
+      </Button>
+      <TextField fx:id="surnameTextField" layoutX="39.0" layoutY="82.0" promptText="Фамилия" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.RegControllers.RegAccountController">
+   <AnchorPane prefHeight="101.0" prefWidth="900.0" style="-fx-background-color: white;">
+      <ImageView fitHeight="55.0" fitWidth="63.0" layoutX="54.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../../resources/logo.png" />
+      </ImageView>
+      <Label fx:id="fullnameRegLabel" layoutX="598.0" layoutY="23.0" prefHeight="38.0" prefWidth="287.0" text="Габриельчик Виктория Сергеевна" textAlignment="CENTER" textFill="#bbbbbb">
+         <font>
+            <Font name="Symbol" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="118.0" layoutY="32.0" prefHeight="18.0" prefWidth="74.0" text="Vikera" textFill="#bbbbbb">
+         <font>
+            <Font name="Serif Regular" size="24.0" />
+         </font>
+      </Label>
+   </AnchorPane>
+   <Button fx:id="desktopRegButton" focusTraversable="false" layoutY="102.0" mnemonicParsing="false" prefHeight="92.5" prefWidth="194.0" style="-fx-background-color: #16b9c3ab; -fx-background-radius: 0;" text="Рабочий стол" textFill="#0000008c">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+      <cursor>
+         <Cursor fx:constant="MOVE" />
+      </cursor>
+   </Button>
+   <Button fx:id="issueAppointmentCardButton" layoutY="196.0" mnemonicParsing="false" prefHeight="92.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Оформить талон" textFill="#0000008c">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <Button fx:id="giveAppointmentCardButton" layoutY="288.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Выдать талон" textFill="#0000008c">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <Button fx:id="issueOutpatientCardButton" layoutY="379.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Оформить амбулаторную карту" textAlignment="CENTER" textFill="#0000008c" wrapText="true">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <Button fx:id="getDoctorScheduleButton" layoutY="470.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Расписание врачей" textFill="#0000008c">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <Button fx:id="editReqProfileButton" layoutY="561.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Настроить профиль" textFill="#0000008c">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <ImageView fitHeight="308.0" fitWidth="362.0" layoutX="524.0" layoutY="367.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../../resources/regPA.png" />
+   </ImageView>
+   <AnchorPane layoutY="652.0" prefHeight="48.0" prefWidth="900.0" style="-fx-background-color: #00c0e14d;">
+      <ImageView fitHeight="38.0" fitWidth="52.0" layoutX="19.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../../resources/cancel.png" />
+      </ImageView>
+      <Button fx:id="returnBackButton" layoutX="57.0" layoutY="12.0" mnemonicParsing="false" style="-fx-background-image: returnBackImage;" text="Button" />
+   </AnchorPane>
+   <Label fx:id="surnameRegLabel" layoutX="253.0" layoutY="102.0" prefHeight="32.0" prefWidth="176.0" text="Фамилия" textFill="#000000b3">
+      <font>
+         <Font size="22.0" />
+      </font>
+   </Label>
+   <Label fx:id="nameRegLabel" layoutX="458.0" layoutY="102.0" prefHeight="32.0" prefWidth="167.0" text="Имя" textFill="#000000b2">
+      <font>
+         <Font size="22.0" />
+      </font>
+   </Label>
+   <Label fx:id="patronymicRegLabel" layoutX="646.0" layoutY="102.0" prefHeight="30.0" prefWidth="148.0" text="Отчество" textFill="#000000b2">
+      <font>
+         <Font size="22.0" />
+      </font>
+   </Label>
+   <Label fx:id="birthdayDateRegLabel" layoutX="253.0" layoutY="152.0" prefHeight="20.0" prefWidth="148.0" text="др (кол-во лет)" textFill="#000000a6">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <Label fx:id="addressRegLabel" layoutX="455.0" layoutY="152.0" prefHeight="18.0" prefWidth="134.0" text="Адрес" textFill="#000000a6">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+</AnchorPane>
