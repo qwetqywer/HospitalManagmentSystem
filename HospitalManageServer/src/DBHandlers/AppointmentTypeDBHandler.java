@@ -7,10 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AppointmentTypeDBHandler extends DBConfigs {
-    private ResultSet resSet;
-    private String select;
-    PreparedStatement prSt;
+public class AppointmentTypeDBHandler  extends DBHandler {
+
 
     public ResultSet getAllTypes(){
         resSet = null;

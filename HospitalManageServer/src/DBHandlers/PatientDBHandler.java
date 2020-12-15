@@ -9,10 +9,26 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PatientDBHandler  extends DBConfigs implements EmployeeSQL {
-    private ResultSet resSet;
-    private String select;
-    PreparedStatement prSt;
+public class PatientDBHandler   extends DBHandler {
+
+
+
+
+
+    public ResultSet getAllPatients() {
+        resSet = null;
+        select = "SELECT * FROM " + DBConst.PATIENT_TABLE;
+        PreparedStatement prSt = null;
+        try {
+            prSt = DBConnection.getDbConnection().prepareStatement(select);
+            resSet = prSt.executeQuery();
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+
+        }
+        return resSet;
+    }
+
 
 
     public boolean addRecord(Patient patient){
@@ -68,26 +84,17 @@ public class PatientDBHandler  extends DBConfigs implements EmployeeSQL {
         }
     }
 
-    @Override
-    public ResultSet getAllEmployees() {
-        return null;
-    }
 
-    @Override
-    public boolean addEmployee(Employee employee) {
-        return false;
-    }
 
-    @Override
-    public void deleteEmployee(Employee employee) {
 
-    }
+
+
 
     public ResultSet getPatientById(int idPatient) {
 
         resSet = null;
         select = "SELECT * FROM " + DBConst.PATIENT_TABLE + " WHERE "
-                + DBConst.PATIENT_ID + " = " + idPatient;;
+                + DBConst.PATIENT_ID + " = " + idPatient;
         prSt = null;
         try {
             prSt = DBConnection.getDbConnection().prepareStatement(select);
@@ -98,5 +105,40 @@ public class PatientDBHandler  extends DBConfigs implements EmployeeSQL {
         }
         return resSet;
 
+    }
+
+    public ResultSet findPatientByFullName(Patient patient) {
+        ResultSet resSet = null;
+        String select = "SELECT * FROM " + DBConst.PATIENT_TABLE + " WHERE "
+                + DBConst.PATIENT_SURNAME + " = '" + patient.getSurname()+"' AND "
+                + DBConst.PATIENT_NAME + " = '" + patient.getName()+"' AND "
+                + DBConst.PATIENT_PATRONYMIC + " = '" + patient.getPatronymic()+"'";
+        System.out.println(select);
+        PreparedStatement prSt = null;
+        try {
+            prSt = DBConnection.getDbConnection().prepareStatement(select);
+            resSet = prSt.executeQuery();
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+
+        }
+        return resSet;
+
+    }
+
+    public ResultSet findById(int idPatient) {
+        ResultSet resSet = null;
+        String select = "SELECT * FROM " + DBConst.PATIENT_TABLE + " WHERE "
+                + DBConst.PATIENT_ID+ " = " + idPatient;
+        System.out.println(select);
+        PreparedStatement prSt = null;
+        try {
+            prSt = DBConnection.getDbConnection().prepareStatement(select);
+            resSet = prSt.executeQuery();
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+
+        }
+        return resSet;
     }
 }

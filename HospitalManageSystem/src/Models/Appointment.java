@@ -15,13 +15,32 @@ public class Appointment implements Serializable {
     private String time;
     private String epicrisis;
     private String status;
+    private int idType;
     private String nameType;
     private int intStatus;
     private int idPatient;
 
+    public Appointment(int id, int idEmployee, String date, String time, String epicrisis) {
+        this.id = id;
+        this.idEmployee = idEmployee;
+        this.date = date;
+        this.time = time;
+        this.epicrisis = epicrisis;
+    }
+
     public int getId() {
         return id;
     }
+
+    public void setIdType(int idType) {
+        this.idType = idType;
+    }
+
+    public int getIdType() {
+        return idType;
+    }
+
+
 
     public int getIdPatient() {
         return idPatient;

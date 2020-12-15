@@ -8,13 +8,17 @@ public class Appointment implements Serializable {
     private static final long serialVersionUID = 1113799434508676095L;
     private int id;
     private int idEmployee;
+    private int idPatient;
+    private int idType;
     private String date;
     private String time;
     private String epicrisis;
     private String status;
     private String nameType;
-    private int idPatient;
     private int intStatus;
+
+
+
     public Appointment(int id, int idEmployee, String date, String time, String epicrisis, String status, int intStatus) {
         this.id = id;
         this.idEmployee = idEmployee;
@@ -23,6 +27,27 @@ public class Appointment implements Serializable {
         this.epicrisis = epicrisis;
         this.status = status;
         this.intStatus = intStatus;
+    }
+
+    public Appointment() {
+
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setIdType(int idType) {
+        this.idType = idType;
+    }
+
+    public int getIdType() {
+        return idType;
+    }
+
+    public Appointment(String date, String epicrisis) {
+        this.date = date;
+        this.epicrisis = epicrisis;
     }
 
     public int getId() {

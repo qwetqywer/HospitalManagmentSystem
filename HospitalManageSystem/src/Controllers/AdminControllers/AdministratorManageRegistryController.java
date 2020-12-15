@@ -1,18 +1,12 @@
 package Controllers.AdminControllers;
 
 import java.io.IOException;
-import java.net.URL;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.ResourceBundle;
 
+import Configs.AlertScene;
 import Configs.FXMLConfigs;
-import Controllers.RegControllers.IssueOutpatientCardController;
 import Models.Employee;
-import Models.Street;
-import ServerHandlers.ClientHandler;
-import javafx.collections.ObservableList;
+import ClientHandlers.ClientHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -178,6 +172,7 @@ public class AdministratorManageRegistryController {
         Parent root = loader.getRoot();
         Stage primaryStage = new Stage();
         assert root != null;
+        primaryStage.setTitle("Медицинская клиника");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();
@@ -190,28 +185,38 @@ public class AdministratorManageRegistryController {
         boolean isUpdateSuccessfully = (boolean) clientHandler.readObject();
         ArrayList<Employee> employeeArrayList = new ArrayList<>();
         if(isUpdateSuccessfully) {
+            boolean isUpdate = (boolean) clientHandler.readObject();
+            if(isUpdate){
 
-            int size = clientHandler.read();
-            for(int i=0; i<size ; i++){
-                Employee item = new Employee((Employee) clientHandler.readObject());
-                employeeArrayList.add(item);
+                int size = clientHandler.read();
+                for(int i=0; i<size ; i++){
+                    Employee item = new Employee((Employee) clientHandler.readObject());
+                    employeeArrayList.add(item);
+                }
+
+                Employee.update(employeeArrayList);
+                idReceptionistColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+                surnameReceptionistColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
+                nameReceptionistColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+                patronymicReceptionistColumn.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
+                birthdayReceptionistColumn.setCellValueFactory(new PropertyValueFactory<>("birthday"));
+                genderReceptionistColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
+
+
+                receptionistTable.setItems(Employee.listEmployees);
+
+                receptionistTable.refresh();
+            }else {
+                AlertScene.callAlert("В программе нет работников регистратуры");
             }
 
-            Employee.update(employeeArrayList);
+        }else
+        {
+            AlertScene.callAlert("Нет записей");
         }
 
-        idReceptionistColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        surnameReceptionistColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
-        nameReceptionistColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        patronymicReceptionistColumn.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
-        birthdayReceptionistColumn.setCellValueFactory(new PropertyValueFactory<>("birthday"));
-        genderReceptionistColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
 
 
-        receptionistTable.setItems(Employee.listEmployees);
-        System.out.println(employeeArrayList.size()+" size bedore");
-        receptionistTable.refresh();
-        System.out.println(employeeArrayList.size()+" size after");
     }
 
 

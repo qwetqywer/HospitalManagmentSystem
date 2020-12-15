@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SpecialtyDBHandler extends DBConst implements SpecialtySQL{
+public class SpecialtyDBHandler  extends DBHandler{
     public String findRecordByID(int id) {
 
         ResultSet resSet = null;
@@ -113,4 +113,6 @@ public class SpecialtyDBHandler extends DBConst implements SpecialtySQL{
         return resSet;
 
     }
+
+
 }

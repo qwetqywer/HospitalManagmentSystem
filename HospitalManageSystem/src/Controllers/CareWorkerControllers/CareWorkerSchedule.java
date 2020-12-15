@@ -1,8 +1,10 @@
 package Controllers.CareWorkerControllers;
 
+import Configs.AlertScene;
+import Configs.ChangeScene;
 import Configs.FXMLConfigs;
 import Models.Appointment;
-import ServerHandlers.ClientHandler;
+import ClientHandlers.ClientHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -71,24 +73,45 @@ public class CareWorkerSchedule {
         desktopCareWorkerButton.setOnAction(event -> {
             desktopCareWorkerButton.getScene().getWindow().hide();
             clientHandler.sendMessage("desktopCareWorker");
-            changeScene(FXMLConfigs.careWorkerAccount);
+            ChangeScene.change(FXMLConfigs.careWorkerAccount,getClass());
 
         });
+
+
         getSceduleCareWorkerButton.setOnAction((event -> {
             getSceduleCareWorkerButton.getScene().getWindow().hide();
             clientHandler.sendMessage("getSchedule");
-            changeScene(FXMLConfigs.careWorkerSchedule);
+            ChangeScene.change(FXMLConfigs.careWorkerSchedule,getClass());
         }));
+
+        issueAppointment.setOnAction(actionEvent -> {
+            issueAppointment.getScene().getWindow().hide();
+            clientHandler.sendMessage("issueAppointment");
+            ChangeScene.change(FXMLConfigs.careWorkerIssueAppointment,getClass());
+        });
         returnBackButton.setOnAction(event -> {
             returnBackButton.getScene().getWindow().hide();
             clientHandler.sendMessage("returnBack");
-            changeScene(FXMLConfigs.authorization);
+            ChangeScene.change(FXMLConfigs.authorization,getClass());
         });
+        editCareWorkerProfileButton.setOnAction(actionEvent -> {
+            editCareWorkerProfileButton.getScene().getWindow().hide();
+            clientHandler.sendMessage("editCareWorkerProfile");
+            ChangeScene.change(FXMLConfigs.careWorkerEditAccount,getClass());
+        });
+
+        startAppointmentWithoutOrderButton.setOnAction(actionEvent -> {
+            desktopCareWorkerButton.getScene().getWindow().hide();
+            clientHandler.sendMessage("startWithoutOrder");
+            ChangeScene.change(FXMLConfigs.careWorkerStartAppointmentWithoutOrder,getClass());
+
+        });
+
 
         getPatientsCareWorkerButton.setOnAction(actionEvent -> {
             getPatientsCareWorkerButton.getScene().getWindow().hide();
             clientHandler.sendMessage("startAppointment");
-            changeScene(FXMLConfigs.careWorkerStartAppointment);
+            ChangeScene.change(FXMLConfigs.careWorkerStartAppointment,getClass());
         });
 
         todaySearchButton.setOnAction(actionEvent -> {
@@ -106,7 +129,7 @@ public class CareWorkerSchedule {
         searchButton.setOnAction(actionEvent -> {
         if(dateAppointmentField.getValue()==null)
         {
-            callAlert("Выберите дату");
+            AlertScene.callAlert("Выберите дату");
         }
         else {
             clientHandler.sendMessage("searchButton");
@@ -137,70 +160,75 @@ public class CareWorkerSchedule {
     }
 
     private void updateTable() throws IOException {
-        clientHandler.sendMessage("updateAppointmentTable");
         boolean isUpdateSuccessfully = (boolean) clientHandler.readObject();
         ArrayList<Appointment> appointmentArrayList = new ArrayList<>();
         Appointment.listAppointments.clear();
         if(isUpdateSuccessfully) {
+            boolean isUpdate = (boolean) clientHandler.readObject();
+            if(isUpdate){
 
-            int size = clientHandler.read();
+                int size = clientHandler.read();
 
-            for(int i=0; i<size ; i++){
-                Appointment item = new Appointment((Appointment) clientHandler.readObject());
-                appointmentArrayList.add(item);
+                for(int i=0; i<size ; i++){
+                    Appointment item = new Appointment((Appointment) clientHandler.readObject());
+                    appointmentArrayList.add(item);
 
+                }
+
+                Appointment.update(appointmentArrayList);
+                idAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+                dateAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+                timeAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+                statusAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+                typeAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("nameType"));
+                appointmentTable.setItems(Appointment.listAppointments);
+                appointmentTable.refresh();
+            }else{
+                AlertScene.callAlert("Таких данных нет");
             }
 
-            Appointment.update(appointmentArrayList);
+        }else{
+            AlertScene.callAlert("Не удалось загрузить данные");
         }
 
-        idAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        dateAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        timeAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
-        statusAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        typeAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("nameType"));
-        appointmentTable.setItems(Appointment.listAppointments);
-        appointmentTable.refresh();
     }
 
-    private void callAlert(String alertMessage) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(null);
-        alert.setContentText(alertMessage);
-        alert.showAndWait();
-    }
+
 
 
     private void updateAppointmentTableByDate() throws IOException {
-        clientHandler.sendMessage("updateAppointmentTableByDate");
+
         boolean isUpdateSuccessfully = (boolean) clientHandler.readObject();
         ArrayList<Appointment> appointmentArrayList = new ArrayList<>();
         Appointment.listAppointments.clear();
         if(isUpdateSuccessfully) {
+            boolean isUpdate = (boolean) clientHandler.readObject();
+            if(isUpdate){
+                int size = clientHandler.read();
 
-            int size = clientHandler.read();
-
-            for(int i=0; i<size ; i++){
-                Appointment item = new Appointment((Appointment) clientHandler.readObject());
-                if(item.getDate().equals(String.valueOf(dateAppointmentField.getValue()))){
-                    appointmentArrayList.add(item);
+                for(int i=0; i<size ; i++){
+                    Appointment item = new Appointment((Appointment) clientHandler.readObject());
+                    if(item.getDate().equals(String.valueOf(dateAppointmentField.getValue()))){
+                        appointmentArrayList.add(item);
+                    }
                 }
 
-
+                Appointment.update(appointmentArrayList);
+                idAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+                dateAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+                timeAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+                statusAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+                typeAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("nameType"));
+                appointmentTable.setItems(Appointment.listAppointments);
+                appointmentTable.refresh();
+            }else{
+                AlertScene.callAlert("Таких данных нет");
             }
 
-            Appointment.update(appointmentArrayList);
+
+        }else{
+            AlertScene.callAlert("Не удалось загрузить данные");
         }
-
-        idAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        dateAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        timeAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
-        statusAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        typeAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("nameType"));
-        appointmentTable.setItems(Appointment.listAppointments);
-        appointmentTable.refresh();
-
-
     }
 
 }

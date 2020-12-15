@@ -4,7 +4,7 @@ import Configs.FXMLConfigs;
 import Models.Address;
 import Models.Employee;
 import Models.Street;
-import ServerHandlers.ClientHandler;
+import ClientHandlers.ClientHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -193,8 +193,8 @@ public class EditDoctorController {
             System.out.println(employeeNew);
             clientHandler.sendObject(employeeNew);
             boolean isEmployeeAdded = (boolean) clientHandler.readObject();
-            if (isEmployeeAdded) callAlert("Новый работник регистратуры добавлен");
-            else  callAlert("Новый работник регистратуры не был добавлен. Попробуйте снова.");
+            if (isEmployeeAdded) callAlert("Запись успешно отредактирована");
+            else  callAlert("Запись не была отредактирована. Попробуйте снова.");
 
         }
 
@@ -231,6 +231,7 @@ public class EditDoctorController {
         Parent root = loader.getRoot();
         Stage primaryStage = new Stage();
         assert root != null;
+        primaryStage.setTitle("Медицинская клиника");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();

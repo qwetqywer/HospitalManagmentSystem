@@ -4,17 +4,15 @@ import Configs.FXMLConfigs;
 import Models.Address;
 import Models.Employee;
 import Models.Street;
-import ServerHandlers.ClientHandler;
+import ClientHandlers.ClientHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -205,6 +203,7 @@ public class NewRegController {
         Parent root = loader.getRoot();
         Stage primaryStage = new Stage();
         assert root != null;
+        primaryStage.setTitle("Медицинская клиника");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();

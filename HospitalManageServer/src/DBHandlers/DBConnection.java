@@ -1,16 +1,12 @@
 package DBHandlers;
 
+import Configs.DBConfigs;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DBConnection {
-
-    protected static final String dbHost = "localhost";
-    protected static final String dbPort = "3306";
-    protected static final String dbUser = "root";
-    protected static final String dbPass = "15432";
-    protected static final String dbName = "hospitalsystem";
+public class DBConnection extends DBConfigs {
 
     private static Connection dbConnection;
 

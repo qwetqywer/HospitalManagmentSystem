@@ -12,13 +12,20 @@ public class Specialty implements Serializable {
     private int id;
     private String name;
 
-    public Specialty(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
     public Specialty() {
 
+    }
+
+
+    public Specialty(Specialty specialty) {
+        this.id = specialty.id;
+        this.name = specialty.name;
+    }
+
+    public Specialty(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public static void update(ArrayList<Specialty> specialtiesArrayList) {

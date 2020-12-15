@@ -1,8 +1,9 @@
 package Controllers.CareWorkerControllers;
 
+import Configs.ChangeScene;
 import Configs.FXMLConfigs;
 import Models.Employee;
-import ServerHandlers.ClientHandler;
+import ClientHandlers.ClientHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -45,6 +46,10 @@ public class CareWorkerAccountController {
     @FXML
     private Label addressCareWorkerLabel;
 
+    @FXML
+    private Button issueAppointment;
+
+
     private final ClientHandler clientHandler = ClientHandler.getClient();
 
     @FXML
@@ -52,33 +57,49 @@ public class CareWorkerAccountController {
 
 
         updateCareWorkerAccountData();
-        System.out.println("зашло");
+
         desktopCareWorkerButton.setOnAction(event -> {
             desktopCareWorkerButton.getScene().getWindow().hide();
             clientHandler.sendMessage("desktopCareWorker");
-            changeScene(FXMLConfigs.careWorkerAccount);
+            ChangeScene.change(FXMLConfigs.careWorkerAccount,getClass());
 
         });
-
+        editCareWorkerProfileButton.setOnAction(actionEvent -> {
+            editCareWorkerProfileButton.getScene().getWindow().hide();
+            clientHandler.sendMessage("editCareWorkerProfile");
+            ChangeScene.change(FXMLConfigs.careWorkerEditAccount,getClass());
+        });
 
         getSceduleCareWorkerButton.setOnAction((event -> {
             getSceduleCareWorkerButton.getScene().getWindow().hide();
             clientHandler.sendMessage("getSchedule");
-            changeScene(FXMLConfigs.careWorkerSchedule);
+            ChangeScene.change(FXMLConfigs.careWorkerSchedule,getClass());
         }));
 
-
-
-
+        issueAppointment.setOnAction(actionEvent -> {
+            issueAppointment.getScene().getWindow().hide();
+            clientHandler.sendMessage("issueAppointment");
+            ChangeScene.change(FXMLConfigs.careWorkerIssueAppointment,getClass());
+        });
         returnBackButton.setOnAction(event -> {
             returnBackButton.getScene().getWindow().hide();
             clientHandler.sendMessage("returnBack");
-            changeScene(FXMLConfigs.authorization);
+            ChangeScene.change(FXMLConfigs.authorization,getClass());
         });
+
+
+        startAppointmentWithoutOrderButton.setOnAction(actionEvent -> {
+            desktopCareWorkerButton.getScene().getWindow().hide();
+            clientHandler.sendMessage("startWithoutOrder");
+            ChangeScene.change(FXMLConfigs.careWorkerStartAppointmentWithoutOrder,getClass());
+
+        });
+
+
         getPatientsCareWorkerButton.setOnAction(actionEvent -> {
             getPatientsCareWorkerButton.getScene().getWindow().hide();
             clientHandler.sendMessage("startAppointment");
-            changeScene(FXMLConfigs.careWorkerStartAppointment);
+            ChangeScene.change(FXMLConfigs.careWorkerStartAppointment,getClass());
         });
 
 
@@ -86,29 +107,14 @@ public class CareWorkerAccountController {
     }
 
     private void updateCareWorkerAccountData() {
-        Employee employee = new Employee((Employee) clientHandler.readObject());
-        surnameCareWorkerLabel.setText(employee.getSurname());
-        nameCareWorkerLabel.setText(employee.getName());
-        patronymicCareWorkerLabel.setText(employee.getPatronymic());
-        int age = Period.between(LocalDate.parse(employee.getBirthday(),
+        surnameCareWorkerLabel.setText(Employee.mainEmployee.getSurname());
+        nameCareWorkerLabel.setText(Employee.mainEmployee.getName());
+        patronymicCareWorkerLabel.setText(Employee.mainEmployee.getPatronymic());
+        int age = Period.between(LocalDate.parse(Employee.mainEmployee.getBirthday(),
                 DateTimeFormatter.ofPattern("yyyy-MM-dd")),LocalDate.now() ).getYears();
-        birthdayDateCareWorkerLabel.setText(employee.getBirthday() + " (" + age + ")");
+        birthdayDateCareWorkerLabel.setText(Employee.mainEmployee.getBirthday() +" ("+ age +")");
 
     }
 
-    private void changeScene(String fxmlPath) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(fxmlPath));
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Parent root = loader.getRoot();
-        Stage primaryStage = new Stage();
-        assert root != null;
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(false);
-        primaryStage.show();
-    }
+
 }

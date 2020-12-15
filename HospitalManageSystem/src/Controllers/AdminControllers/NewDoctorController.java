@@ -5,7 +5,7 @@ import Models.Address;
 import Models.Employee;
 import Models.Specialty;
 import Models.Street;
-import ServerHandlers.ClientHandler;
+import ClientHandlers.ClientHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -213,6 +213,7 @@ public class NewDoctorController {
         Parent root = loader.getRoot();
         Stage primaryStage = new Stage();
         assert root != null;
+        primaryStage.setTitle("Медицинская клиника");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();

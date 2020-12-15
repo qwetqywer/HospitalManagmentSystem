@@ -1,8 +1,9 @@
 package Controllers.AdminControllers;
 
+import Configs.AlertScene;
 import Configs.FXMLConfigs;
 import Models.*;
-import ServerHandlers.ClientHandler;
+import ClientHandlers.ClientHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -143,7 +144,7 @@ public class AdministratorMakeScheduleController {
         searchButton.setOnAction(actionEvent -> {
             if(specialtyCheckBox.getSelectionModel()==null)
             {
-                callAlert("Выберите специальность");
+                AlertScene.callAlert("Выберите специальность");
             }
             else {
                 clientHandler.sendMessage("searchButton");
@@ -225,7 +226,7 @@ public class AdministratorMakeScheduleController {
         String regexRoomNumber ="^(\\d{3})$";
         if(!workTime.matches(regexWorkTime) || !roomNumber.matches(regexRoomNumber) ){
 
-            callAlert("Не все поля введены корректно!");
+            AlertScene.callAlert("Не все поля введены корректно!");
         }
         else {
             Employee employee = new Employee(doctorTable.getSelectionModel().getSelectedItem());
@@ -234,11 +235,11 @@ public class AdministratorMakeScheduleController {
             clientHandler.sendObject(employee);
             boolean isEmployeeAdded = (boolean) clientHandler.readObject();
             if (isEmployeeAdded) {
-                callAlert("Рабочее время успешно назначено");
+                AlertScene.callAlert("Рабочее время успешно назначено");
                 workTimeField.setText("");
                 RoomNumberField.setText("");
             }
-            else  callAlert("Рабочее время не было назначено. Попробуйте снова.");
+            else  AlertScene.callAlert("Рабочее время не было назначено. Попробуйте снова.");
 
         }
 
@@ -253,7 +254,7 @@ public class AdministratorMakeScheduleController {
         String regexTime ="^(\\d{2}):(\\d{2})$";
 
         if(!timeAppointment.matches(regexTime) || dateAppointmentField.getValue().isBefore(LocalDate.now())){
-            callAlert("Не все поля введены корректно!");
+            AlertScene.callAlert("Не все поля введены корректно!");
         }
         else {
 
@@ -266,11 +267,11 @@ public class AdministratorMakeScheduleController {
             clientHandler.sendObject(appointment);
             boolean isEmployeeAdded = (boolean) clientHandler.readObject();
             if (isEmployeeAdded) {
-                callAlert("Талон оформлен");
+                AlertScene.callAlert("Талон оформлен");
                 timeAppointmentField.setText("");
                 dateAppointmentField.setValue(LocalDate.now());
             }
-            else  callAlert("Талон не был оформлен. Попробуйте снова.");
+            else  AlertScene.callAlert("Талон не был оформлен. Попробуйте снова.");
 
         }
 
@@ -287,28 +288,29 @@ public class AdministratorMakeScheduleController {
         Parent root = loader.getRoot();
         Stage primaryStage = new Stage();
         assert root != null;
+        primaryStage.setTitle("Медицинская клиника");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();
     }
 
-    private void updateSpecialtyComboBox() {
+    private void updateSpecialtyComboBox() throws IOException {
         clientHandler.sendMessage("updateSpecialtyComboBox");
         boolean isUpdateSuccessfully = (boolean) clientHandler.readObject();
+        ArrayList<Specialty> specialtyArrayList = new ArrayList<>();
         if(isUpdateSuccessfully) {
-            ArrayList<Specialty> specialtyArrayList = (ArrayList<Specialty>)clientHandler.readObject();
+
+            int size = clientHandler.read();
+            for(int i=0; i<size ; i++){
+                Specialty item = new Specialty((Specialty) clientHandler.readObject());
+                specialtyArrayList.add(item);
+            }
             Specialty.update(specialtyArrayList);
+            specialtyCheckBox.setItems(Specialty.listSpecialties);
         }
-        specialtyCheckBox.setItems(Specialty.listSpecialties);
+
     }
 
-
-    private void callAlert(String alertMessage) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(null);
-        alert.setContentText(alertMessage);
-        alert.showAndWait();
-    }
 
     private void deleteFocus() {
 
@@ -319,11 +321,5 @@ public class AdministratorMakeScheduleController {
     }
 
 
-    private void clear(){
-        workTimeField.setText("");
-        RoomNumberField.setText("");
-        timeAppointmentField.setText("");
-        dateAppointmentField.setValue(LocalDate.now());
-    }
 
 }

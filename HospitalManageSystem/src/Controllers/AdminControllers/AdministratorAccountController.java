@@ -1,19 +1,15 @@
 package Controllers.AdminControllers;
 
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.ResourceBundle;
 
 import Configs.FXMLConfigs;
 import Models.Employee;
-import ServerHandlers.ClientHandler;
+import ClientHandlers.ClientHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -128,19 +124,19 @@ public class AdministratorAccountController {
         Parent root = loader.getRoot();
         Stage primaryStage = new Stage();
         assert root != null;
+        primaryStage.setTitle("Медицинская клиника");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();
     }
 
     private void updateAdminAccountData(){
-        Employee employee = new Employee((Employee) clientHandler.readObject());
-        surnameAdministratorLabel.setText(employee.getSurname());
-        nameAdministratorLabel.setText(employee.getName());
-        patronymicAdministratorLabel.setText(employee.getPatronymic());
-        int age = Period.between(LocalDate.parse(employee.getBirthday(),
+        surnameAdministratorLabel.setText(Employee.mainEmployee.getSurname());
+        nameAdministratorLabel.setText(Employee.mainEmployee.getName());
+        patronymicAdministratorLabel.setText(Employee.mainEmployee.getPatronymic());
+        int age = Period.between(LocalDate.parse(Employee.mainEmployee.getBirthday(),
                 DateTimeFormatter.ofPattern("yyyy-MM-dd")),LocalDate.now() ).getYears();
-        birthdayAdministratorLabel.setText(employee.getBirthday() + " (" + age + ")");
+        birthdayAdministratorLabel.setText(Employee.mainEmployee.getBirthday() +" ("+ age +")");
     }
 
 

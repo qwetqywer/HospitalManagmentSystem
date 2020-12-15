@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="911.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CareWorkerControllers.IssueAppointmentController">
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <AnchorPane layoutX="-2.0" layoutY="-11.0" prefHeight="96.0" prefWidth="922.0" style="-fx-background-color: white;">
+      <children>
+         <ImageView fitHeight="55.0" fitWidth="63.0" layoutX="54.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../resources/logo.png" />
+            </image>
+         </ImageView>
+         <Label layoutX="119.0" layoutY="41.0" prefHeight="18.0" prefWidth="74.0" text="Vikera" textFill="#bbbbbb">
+            <font>
+               <Font name="Serif Regular" size="24.0" />
+            </font>
+         </Label>
+      </children>
+   </AnchorPane>
+   <Button fx:id="desktopCareWorkerButton" focusTraversable="false" layoutY="84.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="204.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Рабочий стол" textFill="#000000bf">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+      <cursor>
+         <Cursor fx:constant="MOVE" />
+      </cursor>
+   </Button>
+   <Button fx:id="getSceduleCareWorkerButton" layoutY="180.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="204.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Расписание" textFill="#000000bf">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <Button fx:id="getPatientsCareWorkerButton" layoutY="276.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="204.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Начать прием по талону" textFill="#000000bf">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <Button fx:id="startAppointmentWithoutOrderButton" layoutY="372.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="204.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Начать прием без записи" textAlignment="CENTER" textFill="#000000bf" wrapText="true">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <Button fx:id="editCareWorkerProfileButton" layoutY="564.0" mnemonicParsing="false" prefHeight="87.0" prefWidth="204.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Настроить профиль" textFill="#000000bf">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <AnchorPane layoutX="202.0" layoutY="652.0" prefHeight="48.0" prefWidth="719.0" style="-fx-background-color: #00c0e14d;" />
+   <Button fx:id="returnBackButton" layoutX="-2.0" layoutY="652.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="204.0" style="-fx-background-color: #00c0e14d;" text="Выход" textFill="#000000bf">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <Button fx:id="issueAppointment" layoutY="468.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="204.0" style="-fx-background-color: #16b9c3ab; -fx-background-radius: 0;" text="Назначить направление" textFill="#000000bf">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <ComboBox fx:id="specialtyComboBox" layoutX="224.0" layoutY="112.0" opacity="0.8" prefHeight="28.0" prefWidth="162.0" promptText=" Специальность" style="-fx-background-color: #bbbbbb;" />
+   <ComboBox fx:id="doctorComboBox" layoutX="224.0" layoutY="228.0" opacity="0.8" prefHeight="28.0" prefWidth="162.0" promptText="Выберете врача" style="-fx-background-color: #bbbbbb;" />
+   <TableView fx:id="doctorsTable" focusTraversable="false" layoutX="730.0" layoutY="112.0" prefHeight="200.0" prefWidth="173.0" style="-fx-border-color: #ffffff; -fx-border-width: 0;">
+      <columns>
+         <TableColumn fx:id="fullnameColumn" prefWidth="106.4000244140625" style="-fx-background-color: #00c0e14d;" text="Фамилия врача" />
+         <TableColumn fx:id="officeNumberColumn" prefWidth="65.6" style="-fx-background-color: #00c0e14d;" text="Кабинет" />
+      </columns>
+   </TableView>
+   <Button fx:id="confirmAC" layoutX="664.0" layoutY="331.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="132.0" style="-fx-background-radius: 20; -fx-background-color: #ffcb97;" text="Выбрать талон" textFill="#000000b2">
+      <font>
+         <Font name="Segoe UI Semilight" size="13.0" />
+      </font>
+   </Button>
+   <TableView fx:id="AppointmentTable" focusTraversable="false" layoutX="414.0" layoutY="112.0" prefHeight="200.0" prefWidth="316.0" style="-fx-border-color: #ffffff; -fx-border-width: 0;">
+      <columns>
+         <TableColumn fx:id="eventDateColumn" prefWidth="107.20004272460938" style="-fx-background-color: #00c0e14d;" text="Дата приема" />
+         <TableColumn fx:id="eventTimeColumn" minWidth="0.0" prefWidth="108.79998779296875" style="-fx-background-color: #00c0e14d;" text="Время приема" />
+         <TableColumn fx:id="statusColumn" prefWidth="100.0" style="-fx-background-color: #00c0e14d;" text="Статус" />
+      </columns>
+   </TableView>
+   <Button fx:id="confirmSpecialty" layoutX="251.0" layoutY="154.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="108.0" style="-fx-background-radius: 20; -fx-background-color: #ffd7ab;" text="Подтвердить" textFill="#000000b2">
+      <font>
+         <Font name="Segoe UI Semilight" size="13.0" />
+      </font>
+   </Button>
+   <Button fx:id="confirmDoctor" layoutX="251.0" layoutY="273.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="108.0" style="-fx-background-radius: 20; -fx-background-color: #ffd7ab;" text="Подтвердить" textFill="#000000b2">
+      <font>
+         <Font name="Segoe UI Semilight" size="13.0" />
+      </font>
+   </Button>
+   <TableView fx:id="patientTable" focusTraversable="false" layoutX="228.0" layoutY="471.0" prefHeight="90.0" prefWidth="316.0" style="-fx-border-color: #ffffff;">
+      <columns>
+         <TableColumn fx:id="surnameColumn" prefWidth="103.20001220703125" style="-fx-background-color: #00c0e14d;" text="Фамилия" />
+         <TableColumn fx:id="nameColumn" prefWidth="89.5999755859375" style="-fx-background-color: #00c0e14d;" text="Имя" />
+         <TableColumn fx:id="patronymicColumn" minWidth="0.0" prefWidth="116.80001831054688" style="-fx-background-color: #00c0e14d;" text="Отчество" />
+      </columns>
+   </TableView>
+   <TextField fx:id="surnamePatientTextField" layoutX="227.0" layoutY="363.0" promptText=" Фамилия пациента" />
+   <TextField fx:id="namePatientTextField" layoutX="396.0" layoutY="363.0" promptText="Имя пациента" />
+   <TextField fx:id="patronymicPatientTextField" layoutX="227.0" layoutY="421.0" promptText="Отчество пациента" />
+   <Button fx:id="findPatientButton" layoutX="404.0" layoutY="419.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="132.0" style="-fx-background-radius: 0; -fx-background-color: #ffd7ab;" text="Найти пациента" textFill="#000000a6">
+      <font>
+         <Font name="Segoe UI Semilight" size="13.0" />
+      </font>
+   </Button>
+   <Button fx:id="confirmIssuesButton" layoutX="320.0" layoutY="588.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="132.0" style="-fx-background-radius: 20; -fx-background-color: #ffcb97;" text="Оформить" textFill="#000000a6">
+      <font>
+         <Font name="Segoe UI Semilight" size="13.0" />
+      </font>
+   </Button>
+   <ComboBox fx:id="appointmentTypeComboBox" layoutX="652.0" layoutY="468.0" opacity="0.8" prefHeight="28.0" prefWidth="155.0" promptText="Тип направления" style="-fx-background-color: #bbbbbb;" />
+   <Button fx:id="confirmAppointmentType" layoutX="670.0" layoutY="516.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="120.0" style="-fx-background-radius: 20; -fx-background-color: #ffd7ab;" text="Подтвердить" textFill="#000000b2">
+      <font>
+         <Font name="Segoe UI Semilight" size="13.0" />
+      </font>
+   </Button>
+</AnchorPane>

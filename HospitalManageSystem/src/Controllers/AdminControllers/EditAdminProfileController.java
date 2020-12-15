@@ -1,8 +1,9 @@
 package Controllers.AdminControllers;
 
+import Configs.AlertScene;
 import Configs.FXMLConfigs;
 import Models.Employee;
-import ServerHandlers.ClientHandler;
+import ClientHandlers.ClientHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -60,7 +61,7 @@ public class EditAdminProfileController {
     private PasswordField newPasswordChangePasswordField;
     private final ClientHandler clientHandler = ClientHandler.getClient();
     @FXML
-    void initialize(){
+    void initialize() {
 
 
         registryManagementButton.setOnAction(event -> {
@@ -76,7 +77,6 @@ public class EditAdminProfileController {
             clientHandler.sendMessage("desktopAdmin");
             changeScene(FXMLConfigs.adminAccount);
         }));
-
 
 
         viewStatisticsButton.setOnAction(event -> {
@@ -110,65 +110,27 @@ public class EditAdminProfileController {
             Employee employee = new Employee();
             employee.setLogin(newLoginChangeLoginTextField.getText().trim());
             employee.setPassword(passwordChangeLoginField.getText().trim());
-            //clientHandler.sendObject(Employee.mainEmployee);
+            clientHandler.sendObject(Employee.mainEmployee);
             clientHandler.sendObject(employee);
             boolean isEmployeeResSetFounded = (boolean) clientHandler.readObject();
-            if(isEmployeeResSetFounded){
+            if (isEmployeeResSetFounded) {
                 boolean isEmployeeFounded = (boolean) clientHandler.readObject();
-                if(isEmployeeFounded){
+                if (isEmployeeFounded) {
                     boolean isLoginChanged = (boolean) clientHandler.readObject();
-                    if(isLoginChanged){
+                    if (isLoginChanged) {
                         Employee.mainEmployee.setLogin(newLoginChangeLoginTextField.getText().trim());
                         newLoginChangeLoginTextField.setText("");
                         passwordChangeLoginField.setText("");
                         callAlert("Логин успешно изменен.");
-                    }
-                    else callAlert("Ошибка изменения логина. Попробуйте снова.!!!");
-                }
-                else callAlert("Ошибка изменения логина. Попробуйте снова.!!");
+                    } else callAlert("Ошибка изменения логина. Попробуйте снова.!!!");
+                } else callAlert("Ошибка изменения логина. Попробуйте снова.!!");
 
-            }
-            else callAlert("Ошибка изменения логина. Попробуйте снова.!");
+            } else callAlert("Ошибка изменения логина. Попробуйте снова.!");
 
         });
-        changePasswordButton.setOnAction(event -> {
+        changePasswordButton.setOnAction(actionEvent -> changeCWPassword());
 
-            String oldPassword = oldPasswordChangePasswordField.getText().trim();
-            String newPassword = newPasswordChangePasswordField.getText().trim();
-            String confirmPassword = confirmPasswordChangePasswordField.getText().trim();
-            System.out.println(Employee.mainEmployee);
-            if(oldPassword.equals(Employee.mainEmployee.getPassword()))
-            {
-                if(newPassword.equals(confirmPassword)){
-                    clientHandler.sendMessage("changePassword");
-                    Employee employee = new Employee();
-                    employee.setPassword(newPassword);
-                    //clientHandler.sendObject(Employee.mainEmployee);
-                    clientHandler.sendObject(employee);
-                    boolean isEmployeeResSetFounded = (boolean) clientHandler.readObject();
-                    if(isEmployeeResSetFounded){
-                        boolean isEmployeeFounded = (boolean) clientHandler.readObject();
-                        if(isEmployeeFounded){
-                            boolean isLoginChanged = (boolean) clientHandler.readObject();
-                            if(isLoginChanged){
-                                Employee.mainEmployee.setPassword(newPasswordChangePasswordField.getText().trim());
-                                oldPasswordChangePasswordField.setText("");
-                                newPasswordChangePasswordField.setText("");
-                                confirmPasswordChangePasswordField.setText("");
-                                callAlert("Пароль успешно изменен.");
-                            }
-                            else callAlert("Ошибка изменения пароля. Попробуйте снова!!!.");
-                        }
-                        else callAlert("Ошибка изменения пароля. Попробуйте снова!!.");
 
-                    }
-                    else callAlert("Ошибка изменения пароля. Попробуйте снова!.");
-                }
-                else callAlert("Пароли не совпадают.");
-            }
-            else callAlert("Текущий пароль введен неверно.");
-
-        });
     }
     private void callAlert(String alertMessage) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -176,6 +138,39 @@ public class EditAdminProfileController {
         alert.setContentText(alertMessage);
         alert.showAndWait();
     }
+
+
+    private void changeCWPassword() {
+        String oldPassword = oldPasswordChangePasswordField.getText().trim();
+        String newPassword = newPasswordChangePasswordField.getText().trim();
+        String confirmPassword = confirmPasswordChangePasswordField.getText().trim();
+
+        if (oldPassword.equals(Employee.mainEmployee.getPassword())) {
+            if (newPassword.equals(confirmPassword)) {
+                clientHandler.sendMessage("changePassword");
+                Employee employee = new Employee();
+                employee.setPassword(newPassword);
+                clientHandler.sendObject(Employee.mainEmployee);
+                clientHandler.sendObject(employee);
+                boolean isEmployeeResSetFounded = (boolean) clientHandler.readObject();
+                if (isEmployeeResSetFounded) {
+                    boolean isEmployeeFounded = (boolean) clientHandler.readObject();
+                    if (isEmployeeFounded) {
+                        boolean isLoginChanged = (boolean) clientHandler.readObject();
+                        if (isLoginChanged) {
+                            oldPasswordChangePasswordField.setText("");
+                            newPasswordChangePasswordField.setText("");
+                            confirmPasswordChangePasswordField.setText("");
+                            AlertScene.callAlert("Пароль успешно изменен.");
+                        } else AlertScene.callAlert("Ошибка изменения пароля. Попробуйте снова.");
+                    } else AlertScene.callAlert("Ошибка изменения пароля. Попробуйте снова.");
+
+                } else AlertScene.callAlert("Ошибка изменения пароля. Попробуйте снова.");
+            } else AlertScene.callAlert("Пароли не совпадают.");
+        } else AlertScene.callAlert("Текущий пароль введен неверно.");
+    }
+
+
     private void changeScene(String fxmlPath) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(fxmlPath));
@@ -187,6 +182,7 @@ public class EditAdminProfileController {
         Parent root = loader.getRoot();
         Stage primaryStage = new Stage();
         assert root != null;
+        primaryStage.setTitle("Медицинская клиника");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();

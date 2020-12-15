@@ -2,13 +2,14 @@ package Models;
 
 import Configs.DBConst;
 import DBHandlers.EmployeeDBHandler;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+
 
 public class Employee implements Serializable {
     private static final long serialVersionUID = 1113799434508676095L;
@@ -24,11 +25,12 @@ public class Employee implements Serializable {
     private String password;
     private int idAddress;
     private String nameSpecialty;
+    private int amountOfAppointments;
     private int idSpecialty;
     private Address address;
     private String officeNumber;
     private String workTime;
-    private int amountOfAppointments;
+
 
     public Employee(Employee employee) {
         this.id= employee.id;
@@ -43,13 +45,7 @@ public class Employee implements Serializable {
         this.workTime = employee.workTime;
     }
 
-    public int getAmountOfAppointments() {
-        return amountOfAppointments;
-    }
 
-    public void setAmountOfAppointments(int amountOfAppointments) {
-        this.amountOfAppointments = amountOfAppointments;
-    }
 
     public Employee() {
 
@@ -76,9 +72,7 @@ public class Employee implements Serializable {
         this.officeNumber = officeNumber;
     }
 
-    public void setNameSpecialty(String nameSpecialty) {
-        this.nameSpecialty = nameSpecialty;
-    }
+
 
     public Employee(int id, String surname, String name, String patronymic,
                     String birthday, String gender) {
@@ -142,9 +136,7 @@ public class Employee implements Serializable {
         this.login = login;
     }
 
-    public int getIdAddress() {
-        return idAddress;
-    }
+
 
     public void setIdAddress(int idAddress) {
         this.idAddress = idAddress;
@@ -157,7 +149,6 @@ public class Employee implements Serializable {
     public void setSurname(String surname) {
         this.surname = surname;
     }
-
     public String getName() {
         return name;
     }
@@ -178,9 +169,7 @@ public class Employee implements Serializable {
         return gender;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
+
 
     public int getId() {
         return id;
@@ -194,13 +183,7 @@ public class Employee implements Serializable {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
 
     public int getIdSpecialty() {
         return idSpecialty;
@@ -212,27 +195,7 @@ public class Employee implements Serializable {
 
 
 
-    public boolean findEmployee(int id) {
-        EmployeeDBHandler dataHandler = new EmployeeDBHandler();
-        ResultSet resultSet = dataHandler.findRecordByID(id);
-        if (resultSet == null) return false;
-        else {
-            try {
-                while (resultSet.next()) {
-                    this.id = resultSet.getInt(DBConst.EMPLOYEE_ID);
-                    this.surname = resultSet.getString(DBConst.EMPLOYEE_SURNAME);
-                    this.name = resultSet.getString(DBConst.EMPLOYEE_NAME);
-                    this.patronymic = resultSet.getString(DBConst.EMPLOYEE_PATRONYMIC);
-                    this.birthday = resultSet.getString(DBConst.EMPLOYEE_BIRTHDAY);
-                    this.idSpecialty = resultSet.getInt(DBConst.EMPLOYEE_ID_SPECIALTY);
-                    return true;
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-        return false;
-    }
+
 
     public boolean authorize() {
         EmployeeDBHandler dataHandler = new EmployeeDBHandler();
@@ -244,9 +207,14 @@ public class Employee implements Serializable {
                     if(this.login.equals(resultSet.getString(DBConst.EMPLOYEE_LOGIN))
                             && this.password.equals(resultSet.getString(DBConst.EMPLOYEE_PASSWORD)))
                     {
+                        this.id = resultSet.getInt(DBConst.EMPLOYEE_ID);
                         this.idSpecialty = resultSet.getInt(DBConst.EMPLOYEE_ID_SPECIALTY);
-
-
+                        this.login = resultSet.getString(DBConst.EMPLOYEE_LOGIN);
+                        this.password = resultSet.getString(DBConst.EMPLOYEE_PASSWORD);
+                        this.surname = resultSet.getString(DBConst.EMPLOYEE_SURNAME);
+                        this.name = resultSet.getString(DBConst.EMPLOYEE_NAME);
+                        this.patronymic = resultSet.getString(DBConst.EMPLOYEE_PATRONYMIC);
+                        this.birthday = resultSet.getString(DBConst.EMPLOYEE_BIRTHDAY);
                         return true;
                     }
                 }
@@ -255,6 +223,10 @@ public class Employee implements Serializable {
             }
         }
         return false;
+    }
+
+    public void setWorkTime(String workTime) {
+        this.workTime = workTime;
     }
 
     public String getPassword() {
@@ -269,27 +241,4 @@ public class Employee implements Serializable {
         return address;
     }
 
-    public boolean findEmployeebyPassword(String password) {
-
-        EmployeeDBHandler dataHandler = new EmployeeDBHandler();
-        ResultSet resultSet = dataHandler.findRecordByPassword(password);
-        if (resultSet == null) return false;
-        else {
-            try {
-                while (resultSet.next()) {
-                    this.id = resultSet.getInt(DBConst.EMPLOYEE_ID);
-                    this.surname = resultSet.getString(DBConst.EMPLOYEE_SURNAME);
-                    this.name = resultSet.getString(DBConst.EMPLOYEE_NAME);
-                    this.patronymic = resultSet.getString(DBConst.EMPLOYEE_PATRONYMIC);
-                    this.birthday = resultSet.getString(DBConst.EMPLOYEE_BIRTHDAY);
-                    this.idSpecialty = resultSet.getInt(DBConst.EMPLOYEE_ID_SPECIALTY);
-                    return true;
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-        return false;
-
-    }
 }

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AdminControllers.EditAdminProfileController">
+   <children>
+      <AnchorPane layoutX="194.0" layoutY="656.0" prefHeight="48.0" prefWidth="706.0" style="-fx-background-color: #00c0e14d;" />
+      <Button fx:id="desktopAdministratorButton" focusTraversable="false" layoutY="106.0" mnemonicParsing="false" prefHeight="92.5" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Рабочий стол" textFill="#0000008c">
+         <font>
+            <Font name="Segoe UI Semilight" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="MOVE" />
+         </cursor>
+      </Button>
+      <Button fx:id="registryManagementButton" layoutY="200.0" mnemonicParsing="false" prefHeight="92.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Управление регистратурой" textAlignment="CENTER" textFill="#0000008c" wrapText="true">
+         <font>
+            <Font name="Segoe UI Semilight" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="personnelManagementButton" layoutY="292.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Управление медицинским персоналом" textAlignment="CENTER" textFill="#0000008c" wrapText="true">
+         <font>
+            <Font name="Segoe UI Semilight" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="makeWorkScheduleButton" layoutY="383.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Сформировать график работы" textAlignment="CENTER" textFill="#0000008c" wrapText="true">
+         <font>
+            <Font name="Segoe UI Semilight" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="viewStatisticsButton" layoutY="474.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Просмотреть статистику занятости" textAlignment="CENTER" textFill="#0000008c" wrapText="true">
+         <font>
+            <Font name="Segoe UI Semilight" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="settingsAdministratorButton" layoutY="565.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="194.0" style="-fx-background-color: #16b9c3ab; -fx-background-radius: 0;" text="Настроить профиль" textFill="#000000a6">
+         <font>
+            <Font name="Segoe UI Semilight" size="14.0" />
+         </font>
+      </Button>
+      <AnchorPane prefHeight="110.0" prefWidth="900.0" style="-fx-background-color: white;">
+         <children>
+            <ImageView fitHeight="55.0" fitWidth="63.0" layoutX="54.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/logo.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="119.0" layoutY="41.0" prefHeight="18.0" prefWidth="74.0" text="Vikera" textFill="#bbbbbb">
+               <font>
+                  <Font name="Serif Regular" size="25.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Button fx:id="changePasswordButton" layoutX="266.0" layoutY="571.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="132.0" style="-fx-background-radius: 20; -fx-background-color: #ffcb97;" text="Изменить пароль" textFill="#000000b2">
+         <font>
+            <Font name="Segoe UI Semilight" size="13.0" />
+         </font>
+      </Button>
+      <Label layoutX="266.0" layoutY="121.0" prefHeight="28.0" prefWidth="306.0" text="Изменить логин">
+         <font>
+            <Font name="Segoe UI Semilight" size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="changeLoginButton" layoutX="266.0" layoutY="278.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="132.0" style="-fx-background-radius: 20; -fx-background-color: #ffcb97;" text="Изменить логин" textFill="#000000b2">
+         <font>
+            <Font name="Segoe UI Semilight" size="13.0" />
+         </font>
+      </Button>
+      <TextField fx:id="newLoginChangeLoginTextField" layoutX="266.0" layoutY="158.0" prefHeight="38.0" prefWidth="194.0" promptText="Новый логин" />
+      <PasswordField fx:id="passwordChangeLoginField" layoutX="266.0" layoutY="213.0" prefHeight="38.0" prefWidth="194.0" promptText="Пароль" />
+      <PasswordField fx:id="oldPasswordChangePasswordField" layoutX="266.0" layoutY="395.0" prefHeight="38.0" prefWidth="194.0" promptText="Старый пароль" />
+      <PasswordField fx:id="confirmPasswordChangePasswordField" layoutX="266.0" layoutY="506.0" prefHeight="38.0" prefWidth="194.0" promptText="Подтвердите пароль" />
+      <PasswordField fx:id="newPasswordChangePasswordField" layoutX="266.0" layoutY="449.0" prefHeight="38.0" prefWidth="194.0" promptText="Новый пароль" />
+      <Label layoutX="266.0" layoutY="360.0" prefHeight="28.0" prefWidth="306.0" text="Изменить пароль">
+         <font>
+            <Font name="Segoe UI Semilight" size="14.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="377.0" fitWidth="354.0" layoutX="501.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../resources/nearPhone.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="returnBackButton" layoutY="656.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Выход" textFill="#000000a6">
+         <font>
+            <Font name="Segoe UI Semilight" size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

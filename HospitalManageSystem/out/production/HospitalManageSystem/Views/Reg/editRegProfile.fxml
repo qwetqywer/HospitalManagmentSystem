@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.RegControllers.EditRegProfileController">
+   <AnchorPane prefHeight="101.0" prefWidth="900.0" style="-fx-background-color: white;">
+      <ImageView fitHeight="55.0" fitWidth="63.0" layoutX="54.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../../resources/logo.png" />
+      </ImageView>
+      <Label layoutX="118.0" layoutY="32.0" prefHeight="18.0" prefWidth="74.0" text="Vikera" textFill="#bbbbbb">
+         <font>
+            <Font name="Serif Regular" size="24.0" />
+         </font>
+      </Label>
+   </AnchorPane>
+   <Button fx:id="desktopRegButton" focusTraversable="false" layoutY="93.0" mnemonicParsing="false" prefHeight="102.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Рабочий стол" textFill="#000000a6">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+      <cursor>
+         <Cursor fx:constant="MOVE" />
+      </cursor>
+   </Button>
+   <Button fx:id="issueAppointmentCardButton" layoutY="196.0" mnemonicParsing="false" prefHeight="91.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Оформить талон" textFill="#000000a6">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <Button fx:id="giveAppointmentCardButton" layoutY="288.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Выдать талон" textFill="#000000a6">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <Button fx:id="issueOutpatientCardButton" layoutY="379.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Оформить амбулаторную карту" textAlignment="CENTER" textFill="#000000a6" wrapText="true">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <Button fx:id="getDoctorScheduleButton" layoutY="470.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="194.0" style="-fx-background-color: #00c0e14d; -fx-background-radius: 0;" text="Расписание врачей" textFill="#000000a6">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <Button fx:id="editReqProfileButton" layoutY="561.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="194.0" style="-fx-background-color: #16b9c3ab; -fx-background-radius: 0;" text="Настроить профиль" textFill="#000000a6">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+   <AnchorPane layoutX="193.0" layoutY="652.0" prefHeight="48.0" prefWidth="708.0" style="-fx-background-color: #00c0e14d;" />
+   <Button fx:id="changePasswordButton" layoutX="256.0" layoutY="561.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="132.0" style="-fx-background-radius: 20; -fx-background-color: #ffcb97;" text="Изменить пароль" textFill="#000000b2">
+      <font>
+         <Font name="Segoe UI Semilight" size="13.0" />
+      </font>
+   </Button>
+   <Label layoutX="256.0" layoutY="111.0" prefHeight="28.0" prefWidth="306.0" text="Изменить логин">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Label>
+   <Button fx:id="changeLoginButton" layoutX="256.0" layoutY="268.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="132.0" style="-fx-background-radius: 20; -fx-background-color: #ffcb97;" text="Изменить логин" textFill="#000000b2">
+      <font>
+         <Font name="Segoe UI Semilight" size="13.0" />
+      </font>
+   </Button>
+   <TextField fx:id="newLoginChangeLoginTextField" layoutX="256.0" layoutY="148.0" prefHeight="38.0" prefWidth="194.0" promptText="Новый логин" />
+   <PasswordField fx:id="passwordChangeLoginField" layoutX="256.0" layoutY="203.0" prefHeight="38.0" prefWidth="194.0" promptText="Пароль" />
+   <PasswordField fx:id="oldPasswordChangePasswordField" layoutX="256.0" layoutY="385.0" prefHeight="38.0" prefWidth="194.0" promptText="Старый пароль" />
+   <PasswordField fx:id="confirmPasswordChangePasswordField" layoutX="256.0" layoutY="496.0" prefHeight="38.0" prefWidth="194.0" promptText="Подтвердите пароль" />
+   <PasswordField fx:id="newPasswordChangePasswordField" layoutX="256.0" layoutY="439.0" prefHeight="38.0" prefWidth="194.0" promptText="Новый пароль" />
+   <Label layoutX="256.0" layoutY="350.0" prefHeight="28.0" prefWidth="306.0" text="Изменить пароль">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Label>
+   <ImageView fitHeight="377.0" fitWidth="354.0" layoutX="491.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../../resources/nearPhone.png" />
+   </ImageView>
+   <Button fx:id="returnBackButton" layoutY="652.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="193.0" style="-fx-background-color: #00c0e14d;" text="Выход" textFill="#000000bf">
+      <font>
+         <Font name="Segoe UI Semilight" size="14.0" />
+      </font>
+   </Button>
+</AnchorPane>

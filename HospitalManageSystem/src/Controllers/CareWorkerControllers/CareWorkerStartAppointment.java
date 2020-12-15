@@ -1,9 +1,10 @@
 package Controllers.CareWorkerControllers;
+import Configs.AlertScene;
+import Configs.ChangeScene;
 import Configs.FXMLConfigs;
 import Models.Appointment;
-import Models.Employee;
 import Models.Patient;
-import ServerHandlers.ClientHandler;
+import ClientHandlers.ClientHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -87,7 +88,7 @@ public class CareWorkerStartAppointment {
     private Button diseaseHistoryButton;
 
     @FXML
-    private TextArea diseaseHistory;
+    private ListView<String> diseaseHistory;
 
     private ClientHandler clientHandler = ClientHandler.getClient();
 
@@ -96,36 +97,62 @@ public class CareWorkerStartAppointment {
     void initialize() throws IOException {
 
         updateAppointmentTable();
+
+
         desktopCareWorkerButton.setOnAction(event -> {
             desktopCareWorkerButton.getScene().getWindow().hide();
             clientHandler.sendMessage("desktopCareWorker");
-            changeScene(FXMLConfigs.careWorkerAccount);
+            ChangeScene.change(FXMLConfigs.careWorkerAccount,getClass());
 
         });
+
+
         getSceduleCareWorkerButton.setOnAction((event -> {
             getSceduleCareWorkerButton.getScene().getWindow().hide();
             clientHandler.sendMessage("getSchedule");
-            changeScene(FXMLConfigs.careWorkerSchedule);
+            ChangeScene.change(FXMLConfigs.careWorkerSchedule,getClass());
         }));
+
+        issueAppointment.setOnAction(actionEvent -> {
+            issueAppointment.getScene().getWindow().hide();
+            clientHandler.sendMessage("issueAppointment");
+            ChangeScene.change(FXMLConfigs.careWorkerIssueAppointment,getClass());
+        });
         returnBackButton.setOnAction(event -> {
             returnBackButton.getScene().getWindow().hide();
             clientHandler.sendMessage("returnBack");
-            changeScene(FXMLConfigs.authorization);
+            ChangeScene.change(FXMLConfigs.authorization,getClass());
         });
+
+
+        startAppointmentWithoutOrderButton.setOnAction(actionEvent -> {
+            desktopCareWorkerButton.getScene().getWindow().hide();
+            clientHandler.sendMessage("startWithoutOrder");
+            ChangeScene.change(FXMLConfigs.careWorkerStartAppointmentWithoutOrder,getClass());
+
+        });
+
 
         getPatientsCareWorkerButton.setOnAction(actionEvent -> {
             getPatientsCareWorkerButton.getScene().getWindow().hide();
             clientHandler.sendMessage("startAppointment");
-            changeScene(FXMLConfigs.careWorkerStartAppointment);
+            ChangeScene.change(FXMLConfigs.careWorkerStartAppointment,getClass());
         });
+
+
+        editCareWorkerProfileButton.setOnAction(actionEvent -> {
+            editCareWorkerProfileButton.getScene().getWindow().hide();
+            clientHandler.sendMessage("editCareWorkerProfile");
+            ChangeScene.change(FXMLConfigs.careWorkerEditAccount,getClass());
+        });
+
+
         startButton.setOnAction(actionEvent -> {
             if(appointmentTable.getSelectionModel().getSelectedItem() == null)
             {
-                callAlert("Выберите прием");
+                AlertScene.callAlert("Выберите прием");
             }else {
                 clientHandler.sendMessage("start");
-                Appointment appointment = new Appointment(appointmentTable.getSelectionModel().getSelectedItem());
-                clientHandler.sendObject(appointment);
                 try {
                     startAppointment();
                 } catch (IOException e) {
@@ -133,13 +160,83 @@ public class CareWorkerStartAppointment {
                 }
             }
         });
+
+        endButton.setOnAction(actionEvent -> {
+            if(appointmentTable.getSelectionModel().getSelectedItem() == null)
+            {
+                AlertScene.callAlert("Выберите прием");
+            }else {
+                clientHandler.sendMessage("end");
+               endAppointment();
+            }
+        });
+
+        diseaseHistoryButton.setOnAction(actionEvent -> {
+            if(patientTable.getSelectionModel().getSelectedItem() == null)
+            {
+                AlertScene.callAlert("Выберите пациента");
+            }else {
+
+                clientHandler.sendMessage("diseaseHistory");
+                clientHandler.sendObject(patientTable.getSelectionModel().getSelectedItem());
+                try {
+                    showDiseaseHistory();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+        });
     }
 
-    private void startAppointment() throws IOException {  clientHandler.sendMessage("updatePatientTable");
-        System.out.println("zashli");
+    private void endAppointment() {
+        Appointment appointment = new Appointment(appointmentTable.getSelectionModel().getSelectedItem());
+        String epicrisis = epicrisisField.getText().trim();
+        int status = 2;
+        appointment.setIntStatus(status);
+        appointment.setEpicrisis(epicrisis);
+        clientHandler.sendObject(appointment);
+        boolean isEnd = (boolean) clientHandler.readObject();
+        if(isEnd){
+            AlertScene.callAlert("Прием закончен");
+        }
+        else {
+            AlertScene.callAlert("Ошибка окончания приема");
+        }
+    }
+
+    private void showDiseaseHistory() throws IOException {
 
         boolean isUpdateSuccessfully = (boolean) clientHandler.readObject();
 
+        ArrayList<Appointment> appointmentArrayList = new ArrayList<>();
+        if(isUpdateSuccessfully) {
+
+            int size = clientHandler.read();
+            for(int i=0; i<size ; i++){
+                Appointment item = new Appointment((Appointment) clientHandler.readObject());
+                appointmentArrayList.add(item);
+            }
+
+            diseaseHistory.getItems().clear();
+            for(int i = 0; i < size; i++){
+                if(appointmentArrayList.get(i).getEpicrisis()!=null ){
+                    diseaseHistory.getItems().addAll(appointmentArrayList.get(i).getDate(),
+                            appointmentArrayList.get(i).getEpicrisis());
+                }
+            }
+        }
+        else {
+            AlertScene.callAlert("Не удалось загрузить историю болезни");
+        }
+    }
+
+
+    private void startAppointment() throws IOException {
+        Appointment appointment = new Appointment(appointmentTable.getSelectionModel().getSelectedItem());
+        clientHandler.sendObject(appointment);
+        boolean isUpdateSuccessfully = (boolean) clientHandler.readObject();
         ArrayList<Patient> patientArrayList = new ArrayList<>();
         Patient.listPatients.clear();
         if(isUpdateSuccessfully) {
@@ -154,68 +251,64 @@ public class CareWorkerStartAppointment {
                     }
 
                     Patient.update(patientArrayList);
+
+                    idAppointmentColumn1.setCellValueFactory(new PropertyValueFactory<>("id"));
+                    surnamePatient.setCellValueFactory(new PropertyValueFactory<>("surname"));
+                    namePatient.setCellValueFactory(new PropertyValueFactory<>("name"));
+                    paronymicPatient.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
+                    phonePatient.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+                    patientTable.setItems(Patient.listPatients);
+                    patientTable.refresh();
                 }
                 else{
-                    callAlert("Найдено несколько пациентов");
+                    AlertScene.callAlert("Нет пациента");
                 }
             }
         }
         else {
-            callAlert("Не удалось загрузить пациента");
+            AlertScene.callAlert("Не удалось загрузить пациента");
         }
 
-        idAppointmentColumn1.setCellValueFactory(new PropertyValueFactory<>("id"));
-        surnamePatient.setCellValueFactory(new PropertyValueFactory<>("surname"));
-        namePatient.setCellValueFactory(new PropertyValueFactory<>("name"));
-        paronymicPatient.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
-        phonePatient.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-        patientTable.setItems(Patient.listPatients);
-        patientTable.refresh();
 
     }
 
     private void updateAppointmentTable() throws IOException {
         clientHandler.sendMessage("updateAppointmentTable");
-        System.out.println("zashli");
-
+        appointmentTable.getItems().clear();
         boolean isUpdateSuccessfully = (boolean) clientHandler.readObject();
-
         ArrayList<Appointment> appointmentArrayList = new ArrayList<>();
         Appointment.listAppointments.clear();
         if(isUpdateSuccessfully) {
+            boolean isUpdate = (boolean) clientHandler.readObject();
+            if(isUpdate){
+                int size = clientHandler.read();
+
+                for(int i=0; i<size ; i++){
+                    Appointment item = new Appointment((Appointment) clientHandler.readObject());
+                    appointmentArrayList.add(item);
 
 
-            int size = clientHandler.read();
+                }
 
-            for(int i=0; i<size ; i++){
-                Appointment item = new Appointment((Appointment) clientHandler.readObject());
-                appointmentArrayList.add(item);
-                System.out.println("read");
-
+                Appointment.update(appointmentArrayList);
+                idAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+                dateAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+                timeAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+                typeAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("nameType"));
+                statusAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+                appointmentTable.setItems(Appointment.listAppointments);
+                appointmentTable.refresh();
             }
-
-            Appointment.update(appointmentArrayList);
+            else {
+                AlertScene.callAlert("Сегодня у вас нет приемов");
+            }
         }
         else {
-            callAlert("Не удалось загрузить расписание");
+            AlertScene.callAlert("Не удалось загрузить расписание");
         }
-
-        idAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        dateAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        timeAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
-        typeAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("nameType"));
-        statusAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        appointmentTable.setItems(Appointment.listAppointments);
-        appointmentTable.refresh();
-
     }
 
-    private void callAlert(String alertMessage) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(null);
-        alert.setContentText(alertMessage);
-        alert.showAndWait();
-    }
+
 
 
     private void changeScene(String fxmlPath) {

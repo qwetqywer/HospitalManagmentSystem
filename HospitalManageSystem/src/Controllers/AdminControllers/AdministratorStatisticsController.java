@@ -1,9 +1,10 @@
 package Controllers.AdminControllers;
 
+import Configs.AlertScene;
 import Configs.FXMLConfigs;
 import Models.Appointment;
 import Models.Employee;
-import ServerHandlers.ClientHandler;
+import ClientHandlers.ClientHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -47,32 +48,48 @@ public class AdministratorStatisticsController {
     @FXML
     private Button settingsAdministratorButton;
 
-    @FXML
-    private Label fullNameAdministratorLabel;
+
 
     @FXML
     private BarChart<String, Integer> staticticChart;
 
     @FXML
     private CategoryAxis MonthAxis;
+    @FXML
+    private Button updateDiagram;
 
+    @FXML
+    private Button updateStatistic;
+    @FXML
+    private Label valueAppointments;
     @FXML
     private PieChart frequencyCirculationChart;
 
     private final ClientHandler clientHandler = ClientHandler.getClient();
     private ObservableList<String> monthNames = FXCollections.observableArrayList();
     @FXML
-    void initialize() throws IOException {
-
+    void initialize()  {
         String[] months = DateFormatSymbols.getInstance(Locale.ENGLISH).getMonths();
         monthNames.addAll(Arrays.asList(months));
 
-        MonthAxis.setCategories(monthNames);
-
-        setAppointmentData();
-        showPieChart();
 
 
+
+        updateDiagram.setOnAction(actionEvent -> {
+            try {
+                showPieChart();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        updateStatistic.setOnAction(actionEvent -> {
+            try {
+                setAppointmentData();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         registryManagementButton.setOnAction(event -> {
             registryManagementButton.getScene().getWindow().hide();
@@ -126,14 +143,17 @@ public class AdministratorStatisticsController {
     }
 
     private void showPieChart() throws IOException {
-
+        clientHandler.sendMessage("sendPieChart");
         boolean isSetSuccesfully = (boolean) clientHandler.readObject();
         ArrayList<Employee> employeeArrayList = new ArrayList<>();
         int size = 0;
-        int sizeOfAppointments =0;
+        MonthAxis.setCategories(monthNames);
+
         if(isSetSuccesfully) {
+
+            frequencyCirculationChart.getData().clear();
             size = clientHandler.read();
-            sizeOfAppointments = clientHandler.read();
+            Employee.listEmployees.clear();
             for(int i=0; i<size ; i++){
                 Employee item = new Employee((Employee) clientHandler.readObject());
                 employeeArrayList.add(item);
@@ -147,61 +167,32 @@ public class AdministratorStatisticsController {
                         employeeArrayList.set(j + 1, temp);
                     }
                 }
-            Employee.update(employeeArrayList);
             }
+            Employee.update(employeeArrayList);
+
+            if(employeeArrayList.size()<4){
+            }
+            else{
+                PieChart.Data slice1 = new PieChart.Data(employeeArrayList.get(0).getSurname(),employeeArrayList.get(0).getAmountOfAppointments());
+                PieChart.Data slice2 = new PieChart.Data(employeeArrayList.get(1).getSurname(),employeeArrayList.get(1).getAmountOfAppointments());
+                PieChart.Data slice3 = new PieChart.Data(employeeArrayList.get(2).getSurname(),employeeArrayList.get(2).getAmountOfAppointments());
+                PieChart.Data slice4 = new PieChart.Data(employeeArrayList.get(3).getSurname(),employeeArrayList.get(3).getAmountOfAppointments());
+
+
+                frequencyCirculationChart.getData().add(slice1);
+                frequencyCirculationChart.getData().add(slice2);
+                frequencyCirculationChart.getData().add(slice3);
+                frequencyCirculationChart.getData().add(slice4);
+                frequencyCirculationChart.setLegendSide(Side.LEFT);
+
+
+
+            }
+        }else
+        {
+            AlertScene.callAlert("Не удалось загрузить данные");
         }
-
-        for(int i=0;i< employeeArrayList.size();i++){
-            System.out.println(employeeArrayList.get(i).getAmountOfAppointments());
-        }
-
-        if(employeeArrayList.size()<4){
-
-
-        }
-        else{
-            PieChart.Data slice1 = new PieChart.Data(employeeArrayList.get(0).getSurname(),employeeArrayList.get(0).getAmountOfAppointments());
-            PieChart.Data slice2 = new PieChart.Data(employeeArrayList.get(1).getSurname(),employeeArrayList.get(1).getAmountOfAppointments());
-            PieChart.Data slice3 = new PieChart.Data(employeeArrayList.get(2).getSurname(),employeeArrayList.get(2).getAmountOfAppointments());
-            PieChart.Data slice4 = new PieChart.Data(employeeArrayList.get(3).getSurname(),employeeArrayList.get(3).getAmountOfAppointments());
-
-
-            frequencyCirculationChart.getData().add(slice1);
-            frequencyCirculationChart.getData().add(slice2);
-            frequencyCirculationChart.getData().add(slice3);
-            frequencyCirculationChart.getData().add(slice4);
-            frequencyCirculationChart.setLegendSide(Side.LEFT);
-           /* Label caption = new Label("");
-            caption.setTextFill(Color.WHITE);
-            caption.setStyle("-fx-font: 12 arial;");*/
-          /*  for (PieChart.Data data : frequencyCirculationChart.getData()) {
-                data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED,
-                        mouseEvent -> {
-                            caption.setTranslateX(mouseEvent.getSceneX());
-                            caption.setTranslateY(mouseEvent.getSceneY());
-                            caption.setText("ЖОПА"
-                                    + "%");
-                        });
-                // calculatePercentage(data.getPieValue(),sizeOfAppointments
-            }*/
-
-           /* for(PieChart.Data data : frequencyCirculationChart.getData()){
-                EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent e) {
-                        System.out.println("Hello World");
-                        circle.setFill(Color.DARKSLATEBLUE);
-                    }
-                };
-//Adding event Filter
-                Circle.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
-            }*/
-        }
-
-
-
-
-        }
+    }
 
 
     private void changeScene(String fxmlPath) {
@@ -215,20 +206,23 @@ public class AdministratorStatisticsController {
         Parent root = loader.getRoot();
         Stage primaryStage = new Stage();
         assert root != null;
+        primaryStage.setTitle("Медицинская клиника");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();
     }
 
-    public double calculatePercentage(double obtained, double total) {
-        return obtained/total * 100;
-    }
+
 
     public void setAppointmentData() throws IOException {
+
+        clientHandler.sendMessage("sendStatictic");
 
         boolean isSetSuccesfully = (boolean) clientHandler.readObject();
         ArrayList<Appointment> appointmentArrayList = new ArrayList<>();
         if(isSetSuccesfully) {
+            staticticChart.getData().clear();
+
 
             int size = clientHandler.read();
             for(int i=0; i<size ; i++){
@@ -237,27 +231,27 @@ public class AdministratorStatisticsController {
             }
 
             Appointment.update(appointmentArrayList);
+            int[] monthCounter = new int[12];
+            for (Appointment p : appointmentArrayList) {
+                System.out.println(p.getDate());
+                String[] subStr;
+                String delimeter = "-";
+                subStr = p.getDate().split(delimeter);
+                int month = Integer.valueOf(subStr[1]) - 1;
+                monthCounter[month]++;
+            }
+
+            XYChart.Series<String, Integer> series = new XYChart.Series<>();
+
+
+            for (int i = 0; i < monthCounter.length; i++) {
+                series.getData().add(new XYChart.Data<>(monthNames.get(i), monthCounter[i]));
+            }
+
+            staticticChart.getData().add(series);
+            staticticChart.setLegendVisible(false);
+        }else {
+            AlertScene.callAlert("Не удалось загрузить данные");
         }
-
-        int[] monthCounter = new int[12];
-        for (Appointment p : appointmentArrayList) {
-            System.out.println(p.getDate());
-            String[] subStr;
-            String delimeter = "-"; // Разделитель
-            subStr = p.getDate().split(delimeter); // Разделения строки str с помощью метода split()
-            int month = Integer.valueOf(subStr[1]) - 1;
-            monthCounter[month]++;
-        }
-
-        XYChart.Series<String, Integer> series = new XYChart.Series<>();
-
-        // Создаём объект XYChart.Data для каждого месяца.
-        // Добавляем его в серии.
-        for (int i = 0; i < monthCounter.length; i++) {
-            series.getData().add(new XYChart.Data<>(monthNames.get(i), monthCounter[i]));
-        }
-
-        staticticChart.getData().add(series);
-        staticticChart.setLegendVisible(false);
     }
 }

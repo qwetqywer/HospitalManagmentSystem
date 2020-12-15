@@ -6,7 +6,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class AppointmentDBHandlerTest {
-
     private static AppointmentDBHandler appointmentDBHandler;
     private static int idAppointment;
     private static int idPatient;
@@ -23,5 +22,4 @@ public class AppointmentDBHandlerTest {
         assertEquals("findPatientbyIdAppointment",idPatient,
                 appointmentDBHandler.findPatientbyIdAppointment(idAppointment));
     }
-
 }

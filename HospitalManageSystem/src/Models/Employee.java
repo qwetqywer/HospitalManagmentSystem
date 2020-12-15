@@ -163,18 +163,9 @@ public class Employee implements Serializable {
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "surname='" + surname + '\'' +
-                ", name='" + name + '\'' +
-                ", patronymic='" + patronymic + '\'' +
-                ", gender='" + gender + '\'' +
-                ", id=" + id +
-                ", idSpecialty=" + idSpecialty +
-                ", dateOfBirth=" + birthday +
-                ", login=" + login +
-                ", password=" + password +
-                ", officeNumber=" + officeNumber +
-                ", work=" + officeNumber +
-                '}';
+        return  surname + ' ' +
+                name + ' ' +
+                patronymic + ", " +
+                "№ кабинета - " + officeNumber;
     }
 }

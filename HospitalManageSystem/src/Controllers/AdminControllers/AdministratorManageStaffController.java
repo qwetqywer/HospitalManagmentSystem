@@ -1,7 +1,8 @@
 package Controllers.AdminControllers;
+import Configs.AlertScene;
 import Configs.FXMLConfigs;
 import Models.Employee;
-import ServerHandlers.ClientHandler;
+import ClientHandlers.ClientHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,7 +13,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class AdministratorManageStaffController {
 
@@ -179,30 +179,36 @@ public class AdministratorManageStaffController {
         boolean isUpdateSuccessfully = (boolean) clientHandler.readObject();
         ArrayList<Employee> employeeArrayList = new ArrayList<>();
         if(isUpdateSuccessfully) {
+            boolean isUpdate = (boolean) clientHandler.readObject();
+            if(isUpdate){
+                int size = clientHandler.read();
+                for(int i=0; i<size ; i++){
+                    Employee item = new Employee((Employee) clientHandler.readObject());
+                    employeeArrayList.add(item);
 
-            int size = clientHandler.read();
-            for(int i=0; i<size ; i++){
-                Employee item = new Employee((Employee) clientHandler.readObject());
-                employeeArrayList.add(item);
+                }
 
+                Employee.update(employeeArrayList);
+                idDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+                FullNameDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
+                nameDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+                patronymicDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
+                genderDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
+                RoomNumberDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("officeNumber"));
+                specialtyDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("nameSpecialty"));
+                birthdayDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("birthday"));
+
+                doctorTable.setItems(Employee.listEmployees);
+                doctorTable.refresh();
+            }else{
+                AlertScene.callAlert("В программе нет врачей");
             }
 
-            Employee.update(employeeArrayList);
+        }else {
+            AlertScene.callAlert("Нет записей");
         }
 
-        idDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        FullNameDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
-        nameDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        patronymicDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
-        genderDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
-        RoomNumberDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("officeNumber"));
-        specialtyDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("nameSpecialty"));
-        birthdayDoctorColumn.setCellValueFactory(new PropertyValueFactory<>("birthday"));
 
-        doctorTable.setItems(Employee.listEmployees);
-        System.out.println(employeeArrayList.size()+" size bedore");
-        doctorTable.refresh();
-        System.out.println(employeeArrayList.size()+" size after");
     }
 
 
@@ -232,6 +238,7 @@ public class AdministratorManageStaffController {
         Parent root = loader.getRoot();
         Stage primaryStage = new Stage();
         assert root != null;
+        primaryStage.setTitle("Медицинская клиника");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();
